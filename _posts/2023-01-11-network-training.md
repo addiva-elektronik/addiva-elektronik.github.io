@@ -1,11 +1,11 @@
 ---
-title:  Network Training (1/N)
+title:  Network Training — Basic Networking
 author: Joachim Wiberg
 date:   2023-01-11 16:18:42 +0100
 ---
 
-Lab exercises suitable for, e.g. GNS3, to practice basic networking,
-bridging and VLANs, with the help of your new favorite tools.
+Lab exercises for practicing basic networking with the help of your new
+favorite tools.
 
 <!-- more -->
 
@@ -48,7 +48,7 @@ do not need a switch.
 Set up two devices with a network cable between them.
 
      PC1                    PC2
-    VPCS o----------------o VPCS
+    VPCS ------------------ VPCS
 
  1. Set up device PC1:
     - address: 192.168.1.10
@@ -68,11 +68,10 @@ client program to acquire an address "lease" from a DHCP server:
                   ( (    )__
                  (_,  \ ) ,_)  NAT1
                    '-'--`--'
-                     o
                      |
-     PC1             o               PC2
-    VPCS o------o[<-- -->]o--------o VPCS
-                  Switch1
+     PC1             |               PC2
+    VPCS -----------[⇄]------------- VPCS
+                    SW1
 
 The DHCP server functionality is provided by the NAT "cloud", the switch
 does not have any such functionality, we only need the switch to allow
