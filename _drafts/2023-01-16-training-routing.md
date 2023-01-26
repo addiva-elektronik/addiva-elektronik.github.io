@@ -39,7 +39,7 @@ previous exercises.  We give the router the .1 address in both LANs.
 | **Node** | **VLAN** | **Subnet**  | **Address** | **Netmask**   |
 |----------|----------|-------------|-------------|---------------|
 | Router   | 1T       | 10.0.1.0/24 | 10.0.1.1    | 255.255.255.0 |
-| Router   | 2T       | 10.0.1.0/24 | 10.0.2.1    | 255.255.255.0 |
+| Router   | 2T       | 10.0.2.0/24 | 10.0.2.1    | 255.255.255.0 |
 | PC1      | 1U       | 10.0.1.0/24 | 10.0.1.10   | 255.255.255.0 |
 | PC2      | 2U       | 10.0.2.0/24 | 10.0.2.20   | 255.255.255.0 |
 | PC3      | 1U       | 10.0.1.0/24 | 10.0.1.30   | 255.255.255.0 |
@@ -102,6 +102,8 @@ and left-hand switch with a [*Brouter*][0] using [Infix][].
 
 ## Basic Firewall
 
+
+
 The point of this exercise is to extend the *Brouter* with a basic firewall.
 
   > The safest way to approach firewalling as a beginner; always start
@@ -135,9 +137,16 @@ leader, or write them down and send them in.
 
 ## IP Masquerading
 
-What most users call their home "router" is actually a *Brouter* and IP
-masquerading firewall.  In this exercise we learn how to activate the
-masquerading.
+As you may have heard, there aren't enough IPv4 addresses to go around.
+Though it must have seemed like a stretch back in the 70's, it turns out
+that the 4 billion address pool is way too small to allocate an address
+for all the stuff we have connected to the internet.
+
+For this reason, your home gateway usually has a single publicly
+routable IP address which is shared by all the computers, phones, and
+smart toasters connected to it.  This process of sharing an IP address
+is known as *masquerading*, and in this exercise we will learn how to
+activate it.
 
 ### Exercises
 
@@ -159,7 +168,16 @@ On the *Brouter*:
 
 ## Port Forwarding
 
-In this last exercise we learn about how *port forwarding* works.
+We have seen that masquerading allows multiple clients to share a single
+public IP address.  Clients can open connections to any server on the
+public internet and the gateway is capable of correctly identifying the
+return traffic and route it back to the client.
+
+Now lets look at the opposite scenario, where some server exists on the
+local network which we want to be reachable from the Internet.  How is
+the gateway to know which local device to forward the incoming
+connection request to?  This is the raison d'être of *port forwarding*
+rules, which is the focus of this exercise.
 
 ### Exercises
 
