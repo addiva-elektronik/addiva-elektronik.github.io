@@ -15,3 +15,4 @@ only an email or quick call away <https://www.addiva.se/contact/>
 
 > For more information, visit the ADDIVA-EEPAB Group at <https://addiva.se/>
 
+Visiting us?  See this [map of free parking spots](/assets/parkering.png).
