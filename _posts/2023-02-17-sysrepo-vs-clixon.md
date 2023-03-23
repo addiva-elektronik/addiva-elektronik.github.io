@@ -2,7 +2,10 @@
 title:  "Sysrepo vs Clixon"
 date:   2023-02-17 10:00:00 +0100
 author: Joachim Wiberg
-categories: netconf restconf infix
+categories:
+ - netconf
+ - restconf
+ - infix
 ---
 
 When composing a new [Network Operating System (Infix)][1] several key
@@ -11,6 +14,8 @@ well maintained embedded Linux distribution, which in itself provide
 only the bare necessities to create and maintain a full operating
 system.  It comes with native Linux `/etc/` configuration files and a
 shell prompt.
+
+<!-- more -->
 
 Earlier experience have shown most customers rarely have the expertise
 to handle embedded Linux systems this way, much less configure and set
