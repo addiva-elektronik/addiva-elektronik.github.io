@@ -2,10 +2,7 @@
 title:  "Sysrepo vs Clixon"
 date:   2023-02-17 10:00:00 +0100
 author: Joachim Wiberg
-categories:
- - netconf
- - restconf
- - infix
+categories: netconf restconf infix
 ---
 
 When composing a new [Network Operating System (Infix)][1] several key
@@ -28,7 +25,7 @@ Although fairly comprehensive, they provide a *complete and coherent*
 view of a switch or router.  It is our job to make it user-friendly!
 
 
-### Criteria
+## Criteria
 
 Setting out to find a suitable Open Source component to fill this void
 we had the following requirements ([RFC2119][3]):
@@ -41,7 +38,7 @@ we had the following requirements ([RFC2119][3]):
  - Should have at least rudimentary command line tools
  - Optional support for [CORECONF][7]
 
-### Evaluation
+## Evaluation
 
 While many alternatives exist, the two contenders in our evaluation are
 [Sysrepo][8] and [Clixon][9].  A basic comparison of features shows them
@@ -79,14 +76,16 @@ next up we'll do IETF Interfaces and start looking into the IEEE 802.1Q
 bridging model as well.  For the initial drops we will not need much
 more than that for Infix.
 
-### Honorable Mention
+
+## Honorable Mention
 
 The [OpenCPE](https://github.com/opencpe) project, with freenetconfd,
 mand, etc. [for OpenWRT](https://openwrt.org/inbox/howto/opencpe) is
 a very interesting alternative for those looking into using OpenWRT
 as a base for their product.
 
-### About AEL
+
+## About AEL
 
 At Addiva Elektronik we specialize in networking and power solutions.
 Both from a hardware and embedded software perspective, offering our
