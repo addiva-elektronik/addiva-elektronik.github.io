@@ -109,9 +109,10 @@ This is a much bigger network, it can have 65534 end devices.  The
 reserved network address is 172.16.0.0, but the broadcast address is
 172.16.255.255.
 
-> The whole range of IP addresses in 192.168.xxx.xxx are called *private*,
-> as such they are reserved for LANs and must never be exposed on the
-> Internet.  There exist more private IP ranges that can be used.
+> The whole range of IP addresses in 192.168.xxx.xxx and 172.16.xxx.xxx are
+> *private*, as such they are reserved for LANs and must never be exposed
+> on the Internet.  Other private IP ranges are available, for details, see
+> [RFC1918](https://www.rfc-editor.org/rfc/rfc1918.html#section-3).
 
 ## Setting IP Address and Default Route
 
