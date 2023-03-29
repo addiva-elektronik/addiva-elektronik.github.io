@@ -113,7 +113,7 @@ this blog post, has native support for VLAN filtering.
 > **Note:** recent versions of Debian based systems, like Ubuntu, have
 > enabled bridge firewalling by default.  This may completely disable
 > all or some forwarding of traffic on bridges.  Causing a lot of head
-> scratching!  See [Bridge Forwarding Problem][] for a fix!
+> scratching!  See [Bridge Firewalling][] for a fix!
 
 Now, add a couple of ports to the bridge:
 
@@ -272,4 +272,4 @@ backbone for this network.
 [1]: https://en.wikipedia.org/wiki/Bridging_(networking)
 [2]: https://en.wikipedia.org/wiki/IEEE_802.1Q
 [bridge(8)]: http://man7.org/linux/man-pages/man8/bridge.8.html
-[Bridge Forwarding Problem]: /2021/06/24/bridge-forwarding-problem/
+[Bridge Firewalling]: /2023/03/29/bridge-firewalling/
