@@ -17,7 +17,7 @@ enough for you to elaborate on:
 
 ## Bridging, or Switching
 
-The [fist post]({% post_url 2023-01-11-basic-networking %}) introduced
+The [first post]({% post_url 2023-01-11-basic-networking %}) introduced
 LANs and broadcast domains.  An Ethernet bridge, or more commonly, a
 switch, connects multiple networks segments into a common broadcast
 domain.  For more information, see [the Wikipedia page on bridging][1].
