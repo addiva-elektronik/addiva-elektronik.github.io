@@ -22,7 +22,7 @@ end devices, which allows unicast, multicast, and broadcast traffic.
 Devices on a LAN today usually communicate using the Internet Protocol
 (IP), and are commonly using IPv4, more on that below.
 
-A brodcast domain is a LAN.  Many LAN segments can be bridged to create
+A broadcast domain is a LAN.  Many LAN segments can be bridged to create
 a larger broadcast domain.  To facilitate communication between LANs you
 need a router, sometimes referred to as a gateway.
 
@@ -46,7 +46,7 @@ Useful tools for debugging ARP related problems are:
 
 - [arp(8)](http://man7.org/linux/man-pages/man8/arp.8.html)
 - [ip-neighbour(8)](http://man7.org/linux/man-pages/man8/ip-neighbour.8.html)
-- [arpping(8)](http://man7.org/linux/man-pages/man8/arping.8.html)
+- [arping(8)](http://man7.org/linux/man-pages/man8/arping.8.html)
 
 > Needless to say, ARP is crucial for IPv4 networking.  When in doubt,
 > use [tcpdump](https://en.wikipedia.org/wiki/Tcpdump), `tshark`, or
