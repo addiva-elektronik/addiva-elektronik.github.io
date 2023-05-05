@@ -2,6 +2,8 @@
 title:  Network Training — Switching
 author: Joachim Wiberg
 date:   2023-01-12 14:12:42 +0100
+categories:
+ - networking course
 ---
 
 Lab exercises suitable for practicing bridging and VLANs.

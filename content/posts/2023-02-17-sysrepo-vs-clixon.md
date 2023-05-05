@@ -2,7 +2,7 @@
 title:  "Sysrepo vs Clixon"
 date:   2023-02-17 10:00:00 +0100
 author: Joachim Wiberg
-categories:
+tags:
  - netconf
  - restconf
  - infix

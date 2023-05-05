@@ -2,6 +2,8 @@
 title:  Network Training — Basic Networking
 author: Joachim Wiberg
 date:   2023-01-11 16:18:42 +0100
+categories:
+ - networking course
 ---
 
 Lab exercises for practicing basic networking with the help of your new

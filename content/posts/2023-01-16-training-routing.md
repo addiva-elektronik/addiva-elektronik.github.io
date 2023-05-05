@@ -2,6 +2,8 @@
 title:  Network Training — Routing
 author: Joachim Wiberg
 date:   2023-01-16 09:58:42 +0100
+categories:
+ - networking course
 ---
 
 Lab exercises suitable for practicing bridging, VLANs, and routing
