@@ -27,7 +27,7 @@ to the switch(es) using a VLAN trunk.
            /:\                   /:\
         PC1 : PC2             PC3 : PC4
             :                     :
-     VLAN 1 : VLAN 2       VLAN 1 : VLAN 2
+    VLAN 10 : VLAN 20     VLAN 10 : VLAN 20
 
 Connect the router to one of the switches as a member of all VLANs to be
 routed and make sure all traffic forwarded on the link is tagged.
@@ -36,20 +36,20 @@ Since we are introducing a new network entity into the mix, we must
 change the IP address plan slightly for our network, compared to the
 previous exercises.  We give the router the .1 address in both LANs.
 
-| **Node** | **VLAN** | **Subnet**  | **Address** | **Netmask**   |
-|----------|----------|-------------|-------------|---------------|
-| Router   | 1T       | 10.0.1.0/24 | 10.0.1.1    | 255.255.255.0 |
-| Router   | 2T       | 10.0.2.0/24 | 10.0.2.1    | 255.255.255.0 |
-| PC1      | 1U       | 10.0.1.0/24 | 10.0.1.10   | 255.255.255.0 |
-| PC2      | 2U       | 10.0.2.0/24 | 10.0.2.20   | 255.255.255.0 |
-| PC3      | 1U       | 10.0.1.0/24 | 10.0.1.30   | 255.255.255.0 |
-| PC4      | 2U       | 10.0.2.0/24 | 10.0.2.40   | 255.255.255.0 |
+| **Node** | **VLAN**  |  **Subnet**  | **Address** | **Netmask**   |
+|----------|-----------|--------------|-------------|---------------|
+| Router   | 10T       | 10.0.10.0/24 | 10.0.10.1   | 255.255.255.0 |
+| Router   | 20T       | 10.0.20.0/24 | 10.0.20.1   | 255.255.255.0 |
+| PC1      | 10U       | 10.0.10.0/24 | 10.0.10.10  | 255.255.255.0 |
+| PC2      | 20U       | 10.0.20.0/24 | 10.0.20.20  | 255.255.255.0 |
+| PC3      | 10U       | 10.0.10.0/24 | 10.0.10.30  | 255.255.255.0 |
+| PC4      | 20U       | 10.0.20.0/24 | 10.0.20.40  | 255.255.255.0 |
 
 ### Setup
 
 The set up procedure inside the router varies depending on the network
 operating system it runs, check the documentation or online help for
-details.   Generally three steps are necessary:
+details. Generally three steps are necessary:
 
  1. "demux" the VLAN trunk to unique (untagged) interfaces
  2. set up a gateway address on each VLAN interface
@@ -87,7 +87,7 @@ and left-hand switch with a [*Brouter*][0] using [Infix][].
            /:\                   /:\
         PC1 : PC2             PC3 : PC4
             :                     :
-     VLAN 1 : VLAN 2       VLAN 1 : VLAN 2
+    VLAN 10 : VLAN 20     VLAN 10 : VLAN 20
 
 
 ### Exercises
@@ -101,7 +101,6 @@ and left-hand switch with a [*Brouter*][0] using [Infix][].
 
 
 ## Basic Firewall
-
 
 
 The point of this exercise is to extend the *Brouter* with a basic firewall.
@@ -119,7 +118,7 @@ deployments is nftables.
 
 On the *Brouter*:
 
- 1. Set up a rule to DENY ALL forwarding between `vlan1` and `vlan2`
+ 1. Set up a rule to DENY ALL forwarding between `vlan10` and `vlan20`
  2. Add a rule to allow only SSH/TCP in both directions
  3. Verify SSH login from, e.g., PC1 to PC4 works
  4. Verify other traffic is blocked, e.g., ping from PC1 to PC4
@@ -146,21 +145,35 @@ For this reason, your home gateway usually has a single publicly
 routable IP address which is shared by all the computers, phones, and
 smart toasters connected to it.  This process of sharing an IP address
 is known as *masquerading*, and in this exercise we will learn how to
-activate it.
+activate it. 
+              
+          (Home)              (Internet)
+          [⇄⇅⇄]-----------------[⇄⇅⇄]
+           / \                   / \
+        PC1  PC2              PC3   PC4
+    VLAN 10   VLAN 10     VLAN 20   VLAN 20
+       10.0.10.0/24           10.0.20.0/24
 
 ### Exercises
 
-On the *Brouter*:
+On the *Home Brouter*:
 
-  1. Set up the masquerading such that all devices in VLAN 2 are the
-     "LAN zone" and all devices in VLAN 1 are in the "Internet zone"
-  2. Verify that PC4 can SSH to PC1
-  3. Verify that PC1 no longer can SSH to PC4 (despite the rules from
-     the *Basic Firewall* exercise)
+  1. Set PC1 and PC2 to be on the same network (10.0.10.0/24)
+  2. Set trunk port ip address (Make sure it is on the same network as trunk port address from the internet brouter, i.e. 1.1.1.1/24)
+  3. Enable access to 10.0.20.0/24 network via the trunk port
+  4. Set up the masquerading on devices connected to "Home zone" using nftables (prefered over iptables) 
+  
+On the *Internet Brouter*:
+  1. Set PC3 and PC4 to be on the same network (10.0.20.0/24) 
+  2. Set trunk port ip address (Make sure it is on the same network as trunk port address from the home brouter, i.e. 1.1.1.2/24)
+
+Verify that:
+  1. PC1 can SSH to PC4
+  2. PC4 no longer can SSH to PC1 (assuming the rules from the *Basic Firewall* exercise are still present)
 
 ### Questions
 
- - What is the source IP of the packets arriving to PC1 from PC4?
+ - What is the source IP of the packets arriving to PC4 from PC1?
  - What is different from the *Routing Between VLANs* exercise?
  - Why is different, why can't PC1 ping PC4 anymore?
  - Describe what the *Brouter* does: routing and masquerading
@@ -176,16 +189,16 @@ return traffic and route it back to the client.
 Now lets look at the opposite scenario, where some server exists on the
 local network which we want to be reachable from the Internet.  How is
 the gateway to know which local device to forward the incoming
-connection request to?  This is the raison d'être of *port forwarding*
+connection request to?  This is the reason to intodruce *port forwarding*
 rules, which is the focus of this exercise.
 
 ### Exercises
 
 On the *Brouter*:
 
- 1. Add a port forwarding rule on vlan1 port 222 to PC4 port 22
- 2. Verify that PC1 can SSH to PC4 by connecting to the IP address of
-    the Brouter's vlan1, using custom port 222
+ 1. Add a port forwarding rule on home Brouter port 222 to PC1 port 22
+ 2. Verify that PC4 can SSH to PC1 by connecting to the IP address of
+    the Brouter's vlan10, using custom port 222
  3. Verify that both PC1 and PC4 still can SSH to the Brouter using
     their respective gateway addresses (on the default port 22)
 

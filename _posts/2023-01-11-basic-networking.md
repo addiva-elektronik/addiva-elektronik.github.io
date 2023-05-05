@@ -96,7 +96,7 @@ Hence, to denote a network one can write one of:
 - 192.168.2.0 netmask 255.255.255.0, or
 - 192.168.2/24
 
-This network has two reserved addresses; then network 192.168.2.0 and
+This network has two reserved addresses; the network 192.168.2.0 and
 the broadcast address 192.168.2.255.  All other addresses can be used
 by end devices.
 
