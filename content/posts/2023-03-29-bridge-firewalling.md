@@ -2,7 +2,11 @@
 title:  "Bridge Firewalling"
 author: Joachim Wiberg
 date:   2023-03-29 17:06:42 +0200
-categories: linux networking bridge firewall
+tags:
+ - linux
+ - networking
+ - bridge
+ - firewall
 ---
 
 Most current Linux distributions (2021) have bridge firewalling enabled

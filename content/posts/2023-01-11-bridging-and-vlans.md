@@ -2,7 +2,8 @@
 title:  "Bridging and VLANs"
 author: Joachim Wiberg
 date:   2023-01-11 15:07:42 +0100
-categories: networking course
+categories:
+ - networking course
 ---
 
 Moving on to more advanced concepts, this post shows how to set up
@@ -17,7 +18,7 @@ enough for you to elaborate on:
 
 ## Bridging, or Switching
 
-The [first post]({% post_url 2023-01-11-basic-networking %}) introduced
+The [first post]({{< ref 2023-01-11-basic-networking >}}) introduced
 LANs and broadcast domains.  An Ethernet bridge, or more commonly, a
 switch, connects multiple networks segments into a common broadcast
 domain.  For more information, see [the Wikipedia page on bridging][1].

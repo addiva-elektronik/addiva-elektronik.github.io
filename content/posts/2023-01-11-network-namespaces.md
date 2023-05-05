@@ -90,4 +90,4 @@ Now, as an exercise, put all these commands in a script so you can more
 easily and safely repeat this every time you need it.  I have a script
 called `~/bin/usenet`, which I call with `sudo usenet eth1` :-)
 
-[1]: {% post_url 2023-01-11-ping-and-tcpdump %}
+[1]: {{< ref 2023-01-11-ping-and-tcpdump >}}

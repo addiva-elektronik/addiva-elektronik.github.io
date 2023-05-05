@@ -2,7 +2,9 @@
 title:  "Basic Routing and Firewalling"
 date:   2023-0-20 10:23:40 +0200
 author: Joachim Wiberg
-categories: networking course
+draft:  true
+categories:
+ - networking course
 ---
 
 We explore the concepts of basic IP routing, IPv4 only, and firewalling

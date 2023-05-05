@@ -2,7 +2,8 @@
 title:  "Basic Networking Introduction"
 date:   2023-01-11 12:30:40 +0100
 author: Joachim Wiberg
-categories: networking course
+categories:
+ - networking course
 ---
 
 We explore the concepts of basic IP networking, IPv4 only, with a focus

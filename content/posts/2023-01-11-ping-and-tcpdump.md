@@ -259,4 +259,4 @@ is an *untagged* member of VLAN 10 on `br0`.
 [ping(8)]: https://www.man7.org/linux/man-pages/man8/ping.8.html
 [tcpdump(8)]: https://www.man7.org/linux/man-pages/man8/tcpdump.8.html
 [sysctl(8)]: https://www.man7.org/linux/man-pages/man8/sysctl.8.html
-[Bridging and VLANs]: {% post_url 2023-01-11-bridging-and-vlans %}
+[Bridging and VLANs]: {{< ref 2023-01-11-bridging-and-vlans >}}

@@ -1,0 +1,3 @@
+[submodule "themes/hello-friend-ng"]
+	path = themes/hello-friend-ng
+	url = git@github.com:addiva-elektronik/hugo-theme-hello-friend-ng.git

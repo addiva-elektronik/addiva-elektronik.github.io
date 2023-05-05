@@ -6,3 +6,5 @@ _site
 .jekyll-metadata
 vendor
 Gemfile.lock
+.hugo_build.lock
+resources/
