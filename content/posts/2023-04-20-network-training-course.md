@@ -1,8 +1,10 @@
 ---
 title:  Network Training — Course
 author: Joachim Wiberg
-date:   2023-04-20 13:00 +0200
-draft:  true
+date:   2023-04-20 13:00:00 +0200
+draft:  false
+categories:
+ - networking course
 ---
 
 This beginner course in networking uses Linux, covering topics of basic
@@ -18,7 +20,7 @@ This blog post links to each topic and training for each topic:
    - [Lab exercises]({{< ref 2023-01-11-training-basic-networking >}})
  - [Bridging and VLANs]({{< ref 2023-01-11-bridging-and-vlans >}})
    - [Lab exercises]({{< ref 2023-01-12-training-switching >}})
- - [Basic Networking Introduction]({{< ref 2023-01-11-basic-networking >}})
+ - [Basic Routing and Firewalling]({{< ref 2023-01-11-basic-networking >}})
    - [Lab exercises]({{< ref 2023-01-16-training-routing >}})
 
 

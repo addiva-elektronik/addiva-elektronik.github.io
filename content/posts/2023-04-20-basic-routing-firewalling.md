@@ -1,8 +1,8 @@
 ---
 title:  "Basic Routing and Firewalling"
-date:   2023-0-20 10:23:40 +0200
+date:   2023-04-20 10:23:40 +0200
 author: Joachim Wiberg
-draft:  true
+draft:  false
 categories:
  - networking course
 ---
@@ -96,9 +96,11 @@ to that subnet.
 The default route is usually set statically at boot, or static:ish by
 a DHCP client.  The latter is probably the most common.
 
+TBD
 
 ### Dynamic Routing
 
+TBD
 
 ## Firewalling
 
@@ -107,4 +109,4 @@ the kernel firewall is called *Netfilter*, it has been managed by many
 different tools over the years, most recently the `iptables` and `nft`
 userspace commands, where the former is the oldest of the two.
 
-
+TBD
