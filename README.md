@@ -8,7 +8,11 @@ registered employee, clone the repository:
 
     cd
     git clone git@github.com:addiva-elektronik/addiva-elektronik.github.io.git blog
-	cd blog/
+    cd blog/
+    git submodule update --init --recursive
+
+> **Note:** The last command is required to get the `themes/` subdirectory
+> updated.  This may be necessary rerun after each future `git pull` as well.
 
 Make changes/additions on a separate branch:
 
