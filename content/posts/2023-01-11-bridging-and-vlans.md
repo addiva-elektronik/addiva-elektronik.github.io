@@ -137,7 +137,7 @@ To see the default VLAN assignments of ports:
     br0      1 PVID Egress Untagged
 
 So these ports look OK, the default VLAN ID assigned to ports is 1.
-However, if the bridge would be created using command bellow (including option `vlan_default_pvid`):
+However, if the bridge would be created using command below (including option `vlan_default_pvid`):
 
     # ip link add br0 type bridge vlan_filtering 1 vlan_default_pvid 0
 
