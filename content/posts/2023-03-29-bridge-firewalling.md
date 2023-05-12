@@ -66,8 +66,14 @@ EOF
 Activate the new settings by restarting the systemd service, or
 rebooting your system:
 
-```
+```sh
 $ sudo systemctl restart systemd-sysctl.service
+```
+
+or call sysctl directly, which works also on systems without systemd:
+
+```sh
+# sysctl -p /etc/sysctl.d/90-bridge-no-filter.conf
 ```
 
 Verify that the new settings took:
@@ -81,4 +87,4 @@ net.bridge.bridge-nf-call-iptables = 0
 ```
 
 For more information on this topic, see the following libVirt wiki page:
-https://wiki.libvirt.org/page/Net.bridge.bridge-nf-call_and_sysctl.conf
+<https://wiki.libvirt.org/page/Net.bridge.bridge-nf-call_and_sysctl.conf>
