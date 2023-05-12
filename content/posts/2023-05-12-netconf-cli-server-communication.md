@@ -1,14 +1,14 @@
 ---
-title:  "Setting-up a NETCOF Client-to-Server Communication "
+title:  "Setting-up a NETCOF Client-to-Server Communication"
 date:   2023-05-12 11:30:40 +0100
 author: Emir Hasanovic
 categories:
  - networking course
 ---
 
-This blog provides an explanation on how to set-up the basic communication between a NETCONF client and the [Infix](https://github.com/kernelkit/infix) server. It contains three sections which give us some answers on the following questions:
+This blog provides an explanation on how to set-up the basic communication between a NETCONF client and a NETCONF server installed on [Infix](https://github.com/kernelkit/infix) system. It contains three sections which give us some answers on the following questions:
 
-  - How to install Infix server?
+  - How to install Infix with NETCONF server?
   - How to set-up a NETCONF client?
   - How to start the client-server communication?
 
@@ -286,9 +286,105 @@ WHich returns the output similar to the below one:
 ````
 
 ## Known issues and workarounds
->- netopeer installation errors and warnings
->- netopeer removal 
->- netopeer problems with ssh keys (not a common problem)
->- qeneth limitation to one instance at a time
+
+**Errors and warnings after installing netopeer2**
+
+After installing *netopeer2* you may see some errors as the ones below. 
+
+````
+     ~$ sudo apt install netopeer2
+     The following packages will be INSTALLED:
+       netopeer2 
+     0 packages upgraded, 1 newly installed, 0 reinstalled, 0 to remove and 10 not upgraded.
+     Need to get 212 kB of archives. After unpacking 0 B will be used.
+     Get: 1 http://ftp.acc.umu.se/ubuntu jammy/universe amd64 netopeer2 amd64 2.0.35-1ubuntu1 [212 kB]
+     Fetched 212 kB in 0s (1 807 kB/s) 
+     (Reading database ... 671332 files and directories currently installed.)
+     Preparing to unpack .../netopeer2_2.0.35-1ubuntu1_amd64.deb ...
+     Unpacking netopeer2 (2.0.35-1ubuntu1) over (2.0.35-1ubuntu1) ...
+     Setting up netopeer2 (2.0.35-1ubuntu1) ...
+     sysrepoctl error: Invalid option or missing argument: -a
+     For more details you may try to increase the verbosity up to "-v3".
+     dpkg: error processing package netopeer2 (--configure):
+      installed netopeer2 package post-installation script subprocess returned error exit status 1
+     Processing triggers for man-db (2.10.2-1) ...
+     Errors were encountered while processing:
+      netopeer2
+     E: Sub-process /usr/bin/dpkg returned an error code (1)
+     Setting up netopeer2 (2.0.35-1ubuntu1) ...
+     sysrepoctl error: Invalid option or missing argument: -a
+     For more details you may try to increase the verbosity up to "-v3".
+     dpkg: error processing package netopeer2 (--configure):
+      installed netopeer2 package post-installation script subprocess returned error exit status 1
+     Errors were encountered while processing:
+      netopeer2
+ ````
+
+The *netopeer2-cli* is usable after this, but the warnings persist in the package system. 
+
+To disable warnings from the package manager follow the next workaround:
+- Edit the file /var/lib/dpkg/info/netopeer2.postinst
+````
+    ~$ sudo vim /var/lib/dpkg/info/netopeer2.postinst
+````
+- Add exit 0 at the very top of the file, so it looks something like this:
+
+````
+     #!/bin/sh
+     # postinst script for netopeer2
+     #
+     # see: dh_installdeb(1)
+
+     # addiva: /usr/share/netopeer2/setup.sh is not updated in this release
+     # addiva: so it tries using old syntax for sysrepoctl that fails.
+     # addiva: With this early `exit 0` we skip the server setup.
+     exit 0
+
+     set -e
+````
+- Tell the package manager to try to fix the broken package(s):
+````
+    ~$ sudo apt-get -f install
+````
+>Note: this only fixes the package manager issue, so the server side of the netopeer2 package is still broken. But it works for our purposes since the server side is on Infix anyway and we only really need the CLI.
+
+**Deinstallation issues with netopeer2**
+
+Besides installation errors, *netopeer2* also returns errors when being removed. Therefore, it's impossible to remove the package by just `sudo apt remove netopeer2`. In order to completely uninstall *netopeer2* and avoid future warnings, it is needed to forcefully remove it: 
+
+````
+     ~$ sudo mkdir /usr/share/netopeer2
+     ~$ sudo mg /usr/share/netopeer2/remove.sh
+     ~$ sudo chmod +x /usr/share/netopeer2/remove.sh
+     ~$ sudo dpkg --remove --force-all netopeer2
+````
+
+
+**Connection errors with netopeer2**
+
+After the first-time connection with NETCONF server on Infix is closed (either by disconnecting regularly or forcefully), you might experience issues with connecting again to the same Infix instance. 
+
+     > disconnect
+     > connect --host infix.local --login root
+     nc ERROR: Starting the SSH session failed (kex error : no match for method server host key algo: server [rsa-sha2-512,rsa-sha2-256], client [ssh-rsa,ssh-ed25519,ecdsa-sha2-nistp521,ecdsa-sha2-nistp384,ecdsa-sha2-nistp256,ssh-dss]).
+     cmd_connect: Connecting to the infix.local:830 as user "root" failed.
+
+Currently, the only workaround for this is to remove the Infix instace from the *~/.ssh/known_hosts* file on the client side. 
+
+
+**qeneth limitation**
+
+The current version of *qeneth* allows only one topology to be run at a time. If you try to run a second instance it will not be possible to provide the needed ports and start *qeneth*. In that case you might see something as following: 
+
+````
+     ~$ qeneth status
+      NODE           PID  CNSOL  MONTR
+      infix         lost  10000  10001
+      ~$ ./infix
+      qemu-system-x86_64: -monitor telnet::10001,server=on,wait=off: Failed to find an available port: Address already in use
+````
+Therefore, it is important to make sure that all previously running topoligies are closed, before starting Infix server on *qeneth*.
+Since *qeneth* runs *qemu* it is easy to explore if there is a running instance in the background by running `ss -ltp`.
+To return PID numbers of running *qemu* instances run `pidof qemu-system-x86_64`. After that you need to make sure that you're not running *qemu* in other programs and to kill only the ones that are associated with *qeneth* : `kill <pid>`.
 
 
