@@ -54,13 +54,13 @@ After that your NETCONF server is ready for use!
 Follow the instuctions on the [github page](https://github.com/wkz/qeneth) to install *qeneth* on your machine. 
 Create a separate working directory in which you want to run your *qeneth* topology and download the Infix image for installing the server, for example:  
 ```
-~$ mkdir tutorial
-~$ cd tutorial/
-~/tutorial$ wget -q https://github.com/kernelkit/infix/releases/download/latest/infix-x86_64.tar.gz
-~/tutorial$ tar xf infix-x86_64.tar.gz infix-x86_64/infix-x86_64.img
-~/tutorial$ mv infix-x86_64/infix-x86_64.img .
-~/tutorial$ rmdir infix-x86_64/
-~/tutorial$ rm infix-x86_64.tar.gz
+     ~$ mkdir tutorial
+     ~$ cd tutorial/
+     ~/tutorial$ wget -q https://github.com/kernelkit/infix/releases/download/latest/infix-x86_64.tar.gz
+     ~/tutorial$ tar xf infix-x86_64.tar.gz infix-x86_64/infix-x86_64.img
+     ~/tutorial$ mv infix-x86_64/infix-x86_64.img .
+     ~/tutorial$ rmdir infix-x86_64/
+     ~/tutorial$ rm infix-x86_64.tar.gz
 ```
 
 After that it is required to create a topology file, i.e.: *~/tutorial/topology.dot.in*.
@@ -68,50 +68,49 @@ After that it is required to create a topology file, i.e.: *~/tutorial/topology.
 In this case we only need an Infix instance connected to the host system, so the input of topology file is as simple as this: 
 
 ```
-graph "host-net" {
-        node [shape=record];
-        qn_template="infix-x86_64";
+     graph "host-net" {
+             node [shape=record];
+             qn_template="infix-x86_64";
 
-        host   [label="host  | { <tap-infix> tap-infix }"];
-        infix  [label="infix | { <eth0> eth0 | <eth1> eth1 }"];
+             host   [label="host  | { <tap-infix> tap-infix }"];
+             infix  [label="infix | { <eth0> eth0 | <eth1> eth1 }"];
 
-        host:"tap-infix" -- infix:eth0;
-}
+             host:"tap-infix" -- infix:eth0;
+     }
 ```
 
 The next step is to generate topology and start *qeneth*. After that it is only left to set some ip addresses to the TAP interface and to Infix instance:
 
 ```
-~/host-net$ qeneth generate && qeneth start
-Info: Generating topology
-Info: Generating node YAML
-gvpr: warning: Using value of uninitialized edge attribute "qn_headport" of "host--infix"
-Info: Generating executables
-Info: Launching infix
-~/host-net$ ip -br link | grep tap-infix
-tap-infix        DOWN           ce:fe:82:f8:cd:19 <BROADCAST,MULTICAST>
-~/host-net$ ip addr add 10.10.10.1/24 dev tap-infix
-~/host-net$ qeneth console infix
-Trying 127.0.0.1...
-Connected to localhost.
+     ~/host-net$ qeneth generate && qeneth start
+     Info: Generating topology
+     Info: Generating node YAML
+     gvpr: warning: Using value of uninitialized edge attribute "qn_headport" of "host--infix"
+     Info: Generating executables
+     Info: Launching infix
+     ~/host-net$ ip -br link | grep tap-infix
+     tap-infix        DOWN           ce:fe:82:f8:cd:19 <BROADCAST,MULTICAST>
+     ~/host-net$ ip addr add 10.10.10.1/24 dev tap-infix
+     ~/host-net$ qeneth console infix
+     Trying 127.0.0.1...
+     Connected to localhost.
 
-Infix by KernelKit (console)
-infix login: root
-Note: use help, show, and setup commands to set up and diagnose the system.
-root@infix:~# ip addr add 10.10.10.2/24 dev eth0
-root@infix:~# ping -c 3 10.10.10.1
-PING 10.10.10.1 (10.10.10.1): 56 data bytes
-64 bytes from 10.10.10.1: seq=0 ttl=64 time=0.241 ms
-64 bytes from 10.10.10.1: seq=1 ttl=64 time=0.474 ms
-64 bytes from 10.10.10.1: seq=2 ttl=64 time=0.504 ms
+     Infix by KernelKit (console)
+     infix login: root
+     Note: use help, show, and setup commands to set up and diagnose the system.
+     root@infix:~# ip addr add 10.10.10.2/24 dev eth0
+     root@infix:~# ping -c 3 10.10.10.1
+     PING 10.10.10.1 (10.10.10.1): 56 data bytes
+     64 bytes from 10.10.10.1: seq=0 ttl=64 time=0.241 ms
+     64 bytes from 10.10.10.1: seq=1 ttl=64 time=0.474 ms
+     64 bytes from 10.10.10.1: seq=2 ttl=64 time=0.504 ms
 
---- 10.10.10.1 ping statistics ---
-3 packets transmitted, 3 packets received, 0% packet loss
-round-trip min/avg/max = 0.241/0.406/0.504 ms
-root@infix:~#
-telnet> q
-Connection closed.
-}
+     --- 10.10.10.1 ping statistics ---
+     3 packets transmitted, 3 packets received, 0% packet loss
+     round-trip min/avg/max = 0.241/0.406/0.504 ms
+     root@infix:~#
+     telnet> q
+     Connection closed.
 ```
 
 ## Installation of NETCONF client
@@ -148,13 +147,25 @@ After we set up the NETCONF server based on Infix (either on GNS3 or *qeneth*) a
 
 To start *netopeer* client type `netopeer2-cli`. After CLI is started, it is possible to connect to the host by issuing the following command and accepting authenticity of the host. It will also ask for the user password which in case of *root* user in Infix is empty. 
 
-     > connect --host 10.10.10.2 --login root
+     > connect --host 192.168.122.102 --login root
      The authenticity of the host '10.10.10.2' cannot be established.
      ssh-rsa key fingerprint is e5:78:fe:c0:38:14:d2:9e:fa:32:1d:ff:06:63:42:14:7b:0f:d8:b3.
      Are you sure you want to continue connecting (yes/no)? yes
-     root@10.10.10.2 password: 
+     root@192.168.122.102 password: 
 
-Now when the connection is established it is possible to check the status of connection and issue different NETCONF commands. The available commands is possible to explore with `help` command. To disconnect from the server just send `disconnect` command.
+Now when the connection is established it is possible to check the status of connection and issue different NETCONF commands. It is possible to explore the available commands with `help` command. 
+
+Below is an example of how to fetch the sytem data (i.e. hostname) from the server, and then how to change change hostname inside the basic configuration. It is just needed to create appropriate *.xml* file and to define it as a new config. 
+
+For example, to change the hostname, create a *hostname.xml* with the following input: 
+
+```
+     <system xmlns="urn:ietf:params:xml:ns:yang:ietf-system">
+      <hostname>kalle</hostname>
+     </system>
+```
+
+To disconnect from the server just send `disconnect` command.
 
      ~$ netopeer2-cli
      > help
@@ -201,6 +212,11 @@ Now when the connection is established it is possible to check the status of con
        timed           Time all the commands (that communicate with a server) from issuing an RPC to getting a reply
        ?               Display commands description
        exit            Quit the program
+     > connect --host 192.168.122.102 --login root
+     The authenticity of the host '192.168.122.102' cannot be established.
+     ssh-rsa key fingerprint is 6f:9a:5c:02:70:88:ec:19:76:1a:89:73:9b:74:83:95:b0:44:7b:00.
+     Are you sure you want to continue connecting (yes/no)? yes
+     root@192.168.122.102 password:
      > status
      Current NETCONF session:
        ID          : 1
@@ -238,6 +254,24 @@ Now when the connection is established it is possible to check the status of con
 	     urn:ietf:params:xml:ns:yang:iana-crypt-hash?module=iana-crypt-hash&revision=2014-08-06
 	     urn:ietf:params:xml:ns:yang:iana-if-type?module=iana-if-type&revision=2023-01-26
 	     urn:ietf:params:xml:ns:yang:ietf-system?module=ietf-system&revision=2014-08-06&features=ntp,ntp-udp-port,timezone-name&deviations=kernelkit-infix-deviations
+     > get-config --source running --filter-xpath /system
+     DATA
+     <data xmlns="urn:ietf:params:xml:ns:netconf:base:1.0">
+       <system xmlns="urn:ietf:params:xml:ns:yang:ietf-system">
+          <hostname>default</hostname>
+       </system>
+     </data>
+
+     > 
+     > edit-config --target running --config=/home/emir/Desktop/hostname.xml
+     OK
+     > get-config --source running --filter-xpath /system
+     DATA
+     <data xmlns="urn:ietf:params:xml:ns:netconf:base:1.0">
+       <system xmlns="urn:ietf:params:xml:ns:yang:ietf-system">
+         <hostname>addiva</hostname>
+       </system>
+     </data>
      > disconnect
 
 
@@ -246,11 +280,11 @@ Now when the connection is established it is possible to check the status of con
 **netconf-client**
 
 *netconf-client* works more in the request-response manner since it requires host with user and password combination with each request. One of the simplest requests that can be sent to server is to fetch all available configuration data: 
-````
+```
      ~$  netconf-client --host infix.local -u root -p '' --get
-````
-WHich returns the output similar to the below one: 
-````
+```
+Which returns the output similar to the below one: 
+```
  <data xmlns="urn:ietf:params:xml:ns:netconf:base:1.0" xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0">
   <interfaces xmlns="urn:ietf:params:xml:ns:yang:ietf-interfaces">
     <interface>
@@ -283,7 +317,37 @@ WHich returns the output similar to the below one:
   ...
   ...
   ...
-````
+```
+
+It is also possible to edit configuration, in a similar way as it is done with *netopeer2-cli*. The only difference is that the *.xml* file needs to be wrapped inside ``<config ... </config>`` so it looks as following: 
+
+```
+<config xmlns="urn:ietf:params:xml:ns:netconf:base:1.0">
+  <system xmlns="urn:ietf:params:xml:ns:yang:ietf-system">
+    <hostname>addiva2</hostname>
+  </system>
+</config> 
+```
+
+Then we issue the following *netconf-cli* commands to set and read configuration: 
+
+```
+     ~$ netconf-client --host 192.168.122.102 -u root -p "" --edit-config -i /home/emir/Desktop/hostname.xml
+     <rpc-reply xmlns="urn:ietf:params:xml:ns:netconf:base:1.0" xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" nc:message-id="0">
+       <ok/>
+     </rpc-reply>
+
+     ~$ netconf-client --host 192.168.122.102 -u root -p "" --get-config
+     <data xmlns="urn:ietf:params:xml:ns:netconf:base:1.0" 
+      ...
+      ...
+      ...
+      <system xmlns="urn:ietf:params:xml:ns:yang:ietf-system">
+        <hostname>addiva2</hostname>
+      </system>
+     </data>
+
+```
 
 ## Known issues and workarounds
 
@@ -291,7 +355,7 @@ WHich returns the output similar to the below one:
 
 After installing *netopeer2* you may see some errors as the ones below. 
 
-````
+```
      ~$ sudo apt install netopeer2
      The following packages will be INSTALLED:
        netopeer2 
@@ -318,18 +382,18 @@ After installing *netopeer2* you may see some errors as the ones below.
       installed netopeer2 package post-installation script subprocess returned error exit status 1
      Errors were encountered while processing:
       netopeer2
- ````
+```
 
 The *netopeer2-cli* is usable after this, but the warnings persist in the package system. 
 
 To disable warnings from the package manager follow the next workaround:
 - Edit the file /var/lib/dpkg/info/netopeer2.postinst
-````
+```
     ~$ sudo vim /var/lib/dpkg/info/netopeer2.postinst
-````
+```
 - Add exit 0 at the very top of the file, so it looks something like this:
 
-````
+```
      #!/bin/sh
      # postinst script for netopeer2
      #
@@ -341,23 +405,23 @@ To disable warnings from the package manager follow the next workaround:
      exit 0
 
      set -e
-````
+```
 - Tell the package manager to try to fix the broken package(s):
-````
+```
     ~$ sudo apt-get -f install
-````
+```
 >Note: this only fixes the package manager issue, so the server side of the netopeer2 package is still broken. But it works for our purposes since the server side is on Infix anyway and we only really need the CLI.
 
 **Deinstallation issues with netopeer2**
 
 Besides installation errors, *netopeer2* also returns errors when being removed. Therefore, it's impossible to remove the package by just `sudo apt remove netopeer2`. In order to completely uninstall *netopeer2* and avoid future warnings, it is needed to forcefully remove it: 
 
-````
+```
      ~$ sudo mkdir /usr/share/netopeer2
      ~$ sudo mg /usr/share/netopeer2/remove.sh
      ~$ sudo chmod +x /usr/share/netopeer2/remove.sh
      ~$ sudo dpkg --remove --force-all netopeer2
-````
+```
 
 
 **Connection errors with netopeer2**
@@ -376,13 +440,13 @@ Currently, the only workaround for this is to remove the Infix instace from the 
 
 The current version of *qeneth* allows only one topology to be run at a time. If you try to run a second instance it will not be possible to provide the needed ports and start *qeneth*. In that case you might see something as following: 
 
-````
+```
      ~$ qeneth status
       NODE           PID  CNSOL  MONTR
       infix         lost  10000  10001
       ~$ ./infix
       qemu-system-x86_64: -monitor telnet::10001,server=on,wait=off: Failed to find an available port: Address already in use
-````
+```
 Therefore, it is important to make sure that all previously running topoligies are closed, before starting Infix server on *qeneth*.
 Since *qeneth* runs *qemu* it is easy to explore if there is a running instance in the background by running `ss -ltp`.
 To return PID numbers of running *qemu* instances run `pidof qemu-system-x86_64`. After that you need to make sure that you're not running *qemu* in other programs and to kill only the ones that are associated with *qeneth* : `kill <pid>`.
