@@ -4,7 +4,7 @@ date: 2023-05-15 09:03:20 +0200
 draft: false
 ---
 
-This post shows illustrates _dynamic learning of unicast MAC addresses_
+This post illustrates _dynamic learning of unicast MAC addresses_
 on Linux MAC Bridges, and how to use the `bridge fdb show`
 command to view the MAC database. It expands an [earlier post][Bridging-VLAN-Post] on
 Bridging and VLANs.
@@ -37,9 +37,9 @@ manufacturer][wiki-mac].
    '--+-------+-------+---'
       |       |       |
       |       | 
-	  |     .-+--.
-	  |     | H2 |
-	  |     '----'
+      |     .-+--.
+      |     | H2 |
+      |     '----'
    .--+-.   IP: 10.0.1.2/24
    | H1 |  MAC: 02:22:22:00:00
    '----'
@@ -119,9 +119,9 @@ below, we have expanded the LAN by adding a second bridge.
    '--+-------+-------+---'       '--+-------+--------+---'
       |       |       |              |       |        |
       |       |       '--------------'       |        | 
-	  |     .-+--.	                      .--+-.      |
-	  |     | H2 |	                      | H3 |      |
-	  |     '----'	                      '----'      |
+      |     .-+--.                        .--+-.      |
+      |     | H2 |                        | H3 |      |
+      |     '----'                        '----'      |
    .--+-.  IP: 10.0.1.2/24          IP: 10.0.1.3/24 .-+--.
    | H1 | MAC: 02:22:22:00:00  MAC: 02:33:33::00:00 | H4 |
    '----'                                           '----'
@@ -227,9 +227,9 @@ symbolic names for the MAC addresses.
    '--+-------+-------+---'       '--+-------+--------+---'
     h1|     h2|   br-b|              |br-a   |h3      |h4    <== FDB
       |       |     h3'--------------'h1     |        | 
-	  |     .-+--.	h4                h2  .--+-.      |
-	  |     | H2 |	                      | H3 |      |
-	  |     '----'	                      '----'      |
+      |     .-+--.  h4                h2  .--+-.      |
+      |     | H2 |                        | H3 |      |
+      |     '----'                        '----'      |
    .--+-.  IP: 10.0.1.2/24          IP: 10.0.1.3/24 .-+--.
    | H1 | MAC: 02:22:22:00:00  MAC: 02:33:33::00:00 | H4 |
    '----'                                           '----'
@@ -239,9 +239,9 @@ MAC: 02:11:11:11:00:00               MAC: 02:44:44:44::00:00
 
 ## Exploring MAC learning with Infix
 
-The examples above were done using a virtual setup with [Infix][Infix] on
-[GNS3][GNS3]. Below are some hints if you like to explore this
-yourself.
+The examples above were done using a virtual setup with
+[Infix][Infix], specifically the Classic build, on [GNS3][GNS3]. Below
+are some hints if you like to explore this yourself.
 
 To install Infix and GNS3, look at the guide in the  [Infix][Infix]
 README. It is also recommended to look at the [Basic Networking
@@ -275,9 +275,18 @@ DHCP messages, you can comment out the associated line in
 root@bridge-a:~# cat /etc/network/interfaces.d/eth0 
 auto eth0
 #iface eth0 inet dhcp
-    pre-up ip link set eth0 group iface
+#    pre-up ip link set eth0 group iface
 root@bridge-a:~# 
 ```
+
+The first line (auto eth0) could also be commented out, but then you
+need to bring up eth0, eth1 and eth2 manually.
+```
+root@bridge-a:~# ip link set eth0 up
+root@bridge-a:~# ip link set eth1 up
+root@bridge-a:~# ip link set eth2 up
+```
+
 
 #### Hints on configuring the Hosts
 
@@ -290,7 +299,7 @@ iface eth0 inet static
     address 10.0.1.1
     netmask 255.255.255.0
 #iface eth0 inet dhcp
-    pre-up ip link set eth0 group iface
+#    pre-up ip link set eth0 group iface
 root@h1:~# 
 ```
 
