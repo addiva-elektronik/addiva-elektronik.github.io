@@ -4,11 +4,15 @@ date: 2023-05-15 09:03:20 +0200
 draft: false
 ---
 
-This post shows illustrates dynamic learning of unicast MAC addresses
-for Linux MAC Bridges, and how to use the Linux `bridge fdb show`
-command to view the addresses learned. If you wish to try this out
-yourself, there are [hints on using Infix on
-GNS3](#exploring-mac-learning-with-infix) at the end.
+This post shows illustrates _dynamic learning of unicast MAC addresses_
+on Linux MAC Bridges, and how to use the `bridge fdb show`
+command to view the MAC database. It expands an [earlier post][Bridging-VLAN-Post] on
+Bridging and VLANs.
+
+
+If you wish to try this out yourself, there are hints on exploring _MAC
+Learning with Infix and GNS3_ at [the
+bottom](#exploring-mac-learning-with-infix) of this post.
 
 **\#learning-cache \#mac-database \#forwarding-database \#fdb
 \#mac-bridge \#transparent-bridge**
@@ -293,7 +297,7 @@ root@h1:~#
 
 [GNS3]: https://docs.gns3.com/docs/
 [Training-Basic-Net-Post]: ../../../../2023/01/11/network-training-basic-networking/index.html#install-gns3
-[Training-Routing-Post]: ../../../../2023/01/16/network-training-routing/
+[Bridging-VLAN-Post]: ../../../../2023/01/11/bridging-and-vlans/
 [Infix]: https://github.com/kernelkit/infix
 [wiki-mac]: https://en.wikipedia.org/wiki/MAC_address
 
