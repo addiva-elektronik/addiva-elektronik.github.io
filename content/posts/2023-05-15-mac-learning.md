@@ -4,10 +4,10 @@ date: 2023-05-15 09:03:20 +0200
 draft: false
 ---
 
-This post illustrates _dynamic learning of unicast MAC addresses_
-on Linux MAC Bridges, and how to use the `bridge fdb show`
-command to view the MAC database. It expands an [earlier post][Bridging-VLAN-Post] on
-Bridging and VLANs.
+This post illustrates _dynamic learning of unicast MAC addresses_ on
+Linux MAC Bridges, and how to use the `bridge fdb show` command to
+view the MAC database. It expands upon an [earlier
+post][Bridging-VLAN-Post] on Bridging and VLANs.
 
 
 If you wish to try this out yourself, there are hints on exploring _MAC
@@ -274,6 +274,7 @@ DHCP messages, you can comment out the associated line in
 ```
 root@bridge-a:~# cat /etc/network/interfaces.d/eth0 
 auto eth0
+iface eth0 inet manual
 #iface eth0 inet dhcp
 #    pre-up ip link set eth0 group iface
 root@bridge-a:~# 
