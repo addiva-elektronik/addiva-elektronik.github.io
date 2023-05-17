@@ -79,7 +79,7 @@ In this case we only need an Infix instance connected to the host system, so the
      }
 ```
 
-The next step is to generate topology and start *qeneth*. After that it is only left to set some IP addresses to the TAP interface and to Infix instance:
+The next step is to generate topology and start *qeneth*. It is only left to set some IP addresses to the TAP interface and to Infix instance:
 
 ```
      ~/host-net$ qeneth generate && qeneth start
@@ -119,7 +119,7 @@ To set-up a NETCONF client two different packages are proposed in this section: 
 
 **netopeer2**
 
-It should be possible to install *netopeer2* as every other Ubuntu package by running `apt install netopeer2`. If not, it is possible to clone the repository and install it in that way: 
+It should be possible to install *netopeer2* as every other Ubuntu package by running `apt install netopeer2`. If not, it is possible to clone its repository and install it in that way:
 ```
      ~$ git clone https://github.com/CESNET/netopeer2.git
      ~$ cd netopeer2
@@ -134,7 +134,7 @@ There could be some missing dependencies so before installing *netopeer2*, it is
 
 This package represents a Python-based tool and can be used for setting up both NETCONF servers and NETCONF clients. More details on the actual implementation can be found on [its github page](https://github.com/choppsv1/netconf), as well as in the available [documentation](https://netconf.readthedocs.io/en/master/).
 
-Since the package is based on Python as a prerequisite it is needed to install *Python PIP package* and then use the same to install netconf.
+Since the package is based on Python, as a prerequisite it is needed to install *Python PIP package* and then use the same to install netconf.
 ```
       ~$ apt install python3-pip
       ~$ pip install netconf
@@ -147,11 +147,11 @@ After we set up the NETCONF server based on Infix (either on GNS3 or *qeneth*) a
 
 To start *netopeer* client type `netopeer2-cli`. After CLI is started, it is possible to connect to the host by issuing the following command and accepting authenticity of the host. It will also ask for the user password which in case of *root* user in Infix is empty. 
 
-     > connect --host 192.168.122.102 --login root
+     > connect --host 10.10.10.2 --login root
      The authenticity of the host '10.10.10.2' cannot be established.
      ssh-rsa key fingerprint is e5:78:fe:c0:38:14:d2:9e:fa:32:1d:ff:06:63:42:14:7b:0f:d8:b3.
      Are you sure you want to continue connecting (yes/no)? yes
-     root@192.168.122.102 password: 
+     root@10.10.10.2 password:
 
 Now when the connection is established it is possible to check the status of connection and issue different NETCONF commands. It is possible to explore the available commands with `help` command. 
 
@@ -212,11 +212,11 @@ To disconnect from the server just send `disconnect` command.
        timed           Time all the commands (that communicate with a server) from issuing an RPC to getting a reply
        ?               Display commands description
        exit            Quit the program
-     > connect --host 192.168.122.102 --login root
-     The authenticity of the host '192.168.122.102' cannot be established.
+     > connect --host 10.10.10.2 --login root
+     The authenticity of the host '10.10.10.2' cannot be established.
      ssh-rsa key fingerprint is 6f:9a:5c:02:70:88:ec:19:76:1a:89:73:9b:74:83:95:b0:44:7b:00.
      Are you sure you want to continue connecting (yes/no)? yes
-     root@192.168.122.102 password:
+     root@10.10.10.2 password:
      > status
      Current NETCONF session:
        ID          : 1
@@ -332,12 +332,12 @@ It is also possible to edit configuration, in a similar way as it is done with *
 Then we issue the following *netconf-cli* commands to set and read configuration: 
 
 ```
-     ~$ netconf-client --host 192.168.122.102 -u root -p "" --edit-config -i /home/emir/Desktop/hostname.xml
+     ~$ netconf-client --host 10.10.10.2 -u root -p "" --edit-config -i /home/emir/Desktop/hostname.xml
      <rpc-reply xmlns="urn:ietf:params:xml:ns:netconf:base:1.0" xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" nc:message-id="0">
        <ok/>
      </rpc-reply>
 
-     ~$ netconf-client --host 192.168.122.102 -u root -p "" --get-config
+     ~$ netconf-client --host 10.10.10.2 -u root -p "" --get-config
      <data xmlns="urn:ietf:params:xml:ns:netconf:base:1.0" 
       ...
       ...
