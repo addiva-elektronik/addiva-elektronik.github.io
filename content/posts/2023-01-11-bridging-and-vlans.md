@@ -256,7 +256,7 @@ bridge up in Linux.
 
 But wait, what if we want to connect two separate bridges, on two PCs,
 with multiple VLANs on each?  Let's extend the image used previously,
-and add a syntax for denoting VLAN memberships: *1U* means untagged
+and add a syntax for denoting VLAN memberships: *10U* means untagged
 member of VLAN 10, *20U* means untagged in VLAN 20, and *10T* means tagged
 member of VLAN 10, etc.
 
