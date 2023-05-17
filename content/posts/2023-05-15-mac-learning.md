@@ -313,8 +313,7 @@ root@h1:~#
 ```
 To make the setting permanent, the following can be used:
 ```
-root@h1:~# echo 'net/ipv4/icmp_echo_ignore_broadcasts = 0' > /etc/sysctl.d/91
--icmp-echo-bcast.conf 
+root@h1:~# echo 'net/ipv4/icmp_echo_ignore_broadcasts = 0' > /etc/sysctl.d/91-icmp-echo-bcast.conf 
 root@h1:~#
 ```
 
