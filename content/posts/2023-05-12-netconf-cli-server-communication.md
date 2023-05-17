@@ -79,7 +79,7 @@ In this case we only need an Infix instance connected to the host system, so the
      }
 ```
 
-The next step is to generate topology and start *qeneth*. After that it is only left to set some ip addresses to the TAP interface and to Infix instance:
+The next step is to generate topology and start *qeneth*. After that it is only left to set some IP addresses to the TAP interface and to Infix instance:
 
 ```
      ~/host-net$ qeneth generate && qeneth start
@@ -161,7 +161,7 @@ For example, to change the hostname, create a *hostname.xml* with the following 
 
 ```
      <system xmlns="urn:ietf:params:xml:ns:yang:ietf-system">
-      <hostname>kalle</hostname>
+      <hostname>addiva</hostname>
      </system>
 ```
 
