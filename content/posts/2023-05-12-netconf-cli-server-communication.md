@@ -1,5 +1,5 @@
 ---
-title:  "Setting-up NETCONF Client-to-Server Communication"
+title:  "Using NETCONF CLI Clients to Update Switch Configuration"
 date:   2023-05-12 11:30:40 +0100
 author: Emir Hasanovic
 categories:
@@ -37,34 +37,42 @@ We wish to read and set system hostname via NETCONF ([ietf-system.yang][system-y
 
 ### Preparation
 
-First you need the NETCONF login credentials for your NETCONF Server (the
-Switch). For Infix, the default credentials are admin/admin.
+First you need the NETCONF login credentials for your NETCONF Server
+(the Switch). In case you use Infix, the default credentials are
+admin/admin (see
+[below](#hints-on-installation-of-infix-as-netconf-server) for hints
+on installing Infix).
 
-### With netopeer2-cli
+It is assumed you have installed your NETCONF CLI client (see
+[below](#installation-of-netconf-client) for hints on installing
+netopeer2-cli and netconf-client).
+
+### Update config with netopeer2-cli
 
 Start netopeer2-cli and connect to the server (the Switch)
-
-     linux-pc:~$ netopeer2-cli
-     > connect --host 10.0.1.1 --login admin
-     The authenticity of the host '10.0.1.1' cannot be established.
-     ssh-rsa key fingerprint is e5:78:fe:c0:38:14:d2:9e:fa:32:1d:ff:06:63:42:14:7b:0f:d8:b3.
-     Are you sure you want to continue connecting (yes/no)? yes
-     admin@10.0.1.1 password: admin
-     > 
+```
+linux-pc:~$ netopeer2-cli
+> connect --host 10.0.1.1 --login admin
+The authenticity of the host '10.0.1.1' cannot be established.
+ssh-rsa key fingerprint is e5:78:fe:c0:38:14:d2:9e:fa:32:1d:ff:06:63:42:14:7b:0f:d8:b3.
+Are you sure you want to continue connecting (yes/no)? yes
+admin@10.0.1.1 password: admin
+>
+```
 
 We can read the whole running config with `get-config --source running`,
 but for easier overview, we filter out everything except the config related
 to ietf-system.yang.
-
-
-     > get-config --source running --filter-xpath /system
-     DATA
-     <data xmlns="urn:ietf:params:xml:ns:netconf:base:1.0">
-       <system xmlns="urn:ietf:params:xml:ns:yang:ietf-system">
-         <hostname>infix</hostname>
-       </system>
-     </data>
-     > 
+```
+> get-config --source running --filter-xpath /system
+DATA
+<data xmlns="urn:ietf:params:xml:ns:netconf:base:1.0">
+  <system xmlns="urn:ietf:params:xml:ns:yang:ietf-system">
+    <hostname>infix</hostname>
+  </system>
+</data>
+>
+```
 
 To change the hostname on the switch to _foo_, create a file on the PC,
 e.g., *hostname.xml* with the following input:
@@ -76,23 +84,23 @@ e.g., *hostname.xml* with the following input:
 
 Now we can set the config using `edit-config`, read-out the
 configuration to verify, and disconnect.
-
-     > edit-config --target running --config=/path/to/hostname.xml
-     OK
-     > get-config --source running --filter-xpath /system
-     DATA
-     <data xmlns="urn:ietf:params:xml:ns:netconf:base:1.0">
-       <system xmlns="urn:ietf:params:xml:ns:yang:ietf-system">
-         <hostname>foo</hostname>
-       </system>
-     </data>
-     > disconnect
-     > 
-
+```
+> edit-config --target running --config=/path/to/hostname.xml
+OK
+> get-config --source running --filter-xpath /system
+DATA
+<data xmlns="urn:ietf:params:xml:ns:netconf:base:1.0">
+  <system xmlns="urn:ietf:params:xml:ns:yang:ietf-system">
+    <hostname>foo</hostname>
+  </system>
+</data>
+> disconnect
+>
+```
 
 <!-- more, perhaps  -->
 
-### With netconf-client
+### Update config with netconf-client
 
 *netconf-client* works more in the request-response manner since it
 requires host with user and password combination with each request. One of
@@ -150,8 +158,9 @@ linux-pc:~$ netconf-client --host 10.0.1.1 -u admin -p admin --get-config
 
 To set-up a NETCONF client two different packages are proposed in this section: *netopeer2-cli* and *netconf-client*.
 
-### netopeer2
+### netopeer2-cli
 
+The netopeer2-cli is included in the *netopeer2* project.
 Also, see the [project][netopeer2-github] project page for more information.
 
 It should be possible to install *netopeer2* as every other Ubuntu package by running `apt install netopeer2`. 
