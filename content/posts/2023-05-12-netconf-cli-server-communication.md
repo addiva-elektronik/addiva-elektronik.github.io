@@ -1,5 +1,5 @@
 ---
-title:  "Using NETCONF CLI Clients to Update Switch Configuration"
+title:  "Using NETCONF Client and Server to Update Switch Configuration"
 date:   2023-05-12 11:30:40 +0100
 author: Emir Hasanovic
 categories:
@@ -276,15 +276,20 @@ After the Infix is added to GNS3, it is possible to create a simple setup as bel
                     (⇅)
                    Infix
 ```
-It is only left to assing an IP address to the Infix device, either a static one by: 
 
-     > ip addr add 10.0.1.1/24 dev eth0
-
-or a dynamic one by using DHCP server:
-
+It is only left to assing an IP address to the Infix device and since the NAT interface is in use, we obtain one from DHCP server by running:
+```
      > udhcpc -i eth0
+```
+The assigned IP address is in form *192.168.122.y*, therefore we can update the system overview and use this IP address while setting up client-to-server connection:
 
-After that your NETCONF server is ready for use!
+```
+ .----. .x              .y .--------.
+ | PC +---------------------+ Switch |
+ '----'     192.168.122.0/24     '--------'
+ NETCONF                    NETCONF
+ Client                     Server
+```
 
 
 ### Infix on qeneth
@@ -363,13 +368,13 @@ infix login: admin
 Password: admin
 Note: use help, show, and setup commands to set up and diagnose the system.
 admin@infix:~# ip addr add 10.0.1.1/24 dev eth0
-admin@infix:~# ping -c 3 10.10.10.43
-PING 10.10.10.1 (10.10.10.1): 56 data bytes
-64 bytes from 10.10.10.43: seq=0 ttl=64 time=0.241 ms
-64 bytes from 10.10.10.43: seq=1 ttl=64 time=0.474 ms
-64 bytes from 10.10.10.43: seq=2 ttl=64 time=0.504 ms
+admin@infix:~# ping -c 3 10.0.1.43
+PING 10.0.1.1 (10.0.1.1): 56 data bytes
+64 bytes from 10.0.1.43: seq=0 ttl=64 time=0.241 ms
+64 bytes from 10.0.1.43: seq=1 ttl=64 time=0.474 ms
+64 bytes from 10.0.1.43: seq=2 ttl=64 time=0.504 ms
 
---- 10.10.10.43 ping statistics ---
+--- 10.0.1.43 ping statistics ---
 3 packets transmitted, 3 packets received, 0% packet loss
 round-trip min/avg/max = 0.241/0.406/0.504 ms
 admin@infix:~#
@@ -455,12 +460,12 @@ Besides installation errors, *netopeer2* also returns errors when being removed.
 **Connection errors with netopeer2**
 
 After the first-time connection with NETCONF server on Infix is closed (either by disconnecting regularly or forcefully), you might experience issues with connecting again to the same Infix instance. 
-
+```
      > disconnect
      > connect --host infix.local --login root
      nc ERROR: Starting the SSH session failed (kex error : no match for method server host key algo: server [rsa-sha2-512,rsa-sha2-256], client [ssh-rsa,ssh-ed25519,ecdsa-sha2-nistp521,ecdsa-sha2-nistp384,ecdsa-sha2-nistp256,ssh-dss]).
      cmd_connect: Connecting to the infix.local:830 as user "root" failed.
-
+```
 Currently, the only workaround for this is to remove the Infix instace from the *~/.ssh/known_hosts* file on the client side. 
 
 
@@ -530,15 +535,15 @@ To return PID numbers of running *qemu* instances run `pidof qemu-system-x86_64`
        timed           Time all the commands (that communicate with a server) from issuing an RPC to getting a reply
        ?               Display commands description
        exit            Quit the program
-     > connect --host 10.10.10.2 --login root
-     The authenticity of the host '10.10.10.2' cannot be established.
+     > connect --host 10.0.1.1--login root
+     The authenticity of the host '10.0.1.1' cannot be established.
      ssh-rsa key fingerprint is 6f:9a:5c:02:70:88:ec:19:76:1a:89:73:9b:74:83:95:b0:44:7b:00.
      Are you sure you want to continue connecting (yes/no)? yes
-     root@10.10.10.2 password:
+     root@10.0.1.1 password:
      > status
      Current NETCONF session:
        ID          : 1
-       Host        : 10.10.10.2
+       Host        : 10.0.1.1
        Port        : 830
        Transport   : SSH
        Capabilities:
