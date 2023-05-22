@@ -462,9 +462,9 @@ Besides installation errors, *netopeer2* also returns errors when being removed.
 After the first-time connection with NETCONF server on Infix is closed (either by disconnecting regularly or forcefully), you might experience issues with connecting again to the same Infix instance. 
 ```
      > disconnect
-     > connect --host infix.local --login root
+     > connect --host infix.local --login admin
      nc ERROR: Starting the SSH session failed (kex error : no match for method server host key algo: server [rsa-sha2-512,rsa-sha2-256], client [ssh-rsa,ssh-ed25519,ecdsa-sha2-nistp521,ecdsa-sha2-nistp384,ecdsa-sha2-nistp256,ssh-dss]).
-     cmd_connect: Connecting to the infix.local:830 as user "root" failed.
+     cmd_connect: Connecting to the infix.local:830 as user "admin" failed.
 ```
 Currently, the only workaround for this is to remove the Infix instace from the *~/.ssh/known_hosts* file on the client side. 
 
@@ -535,11 +535,11 @@ To return PID numbers of running *qemu* instances run `pidof qemu-system-x86_64`
        timed           Time all the commands (that communicate with a server) from issuing an RPC to getting a reply
        ?               Display commands description
        exit            Quit the program
-     > connect --host 10.0.1.1--login root
+     > connect --host 10.0.1.1--login admin
      The authenticity of the host '10.0.1.1' cannot be established.
      ssh-rsa key fingerprint is 6f:9a:5c:02:70:88:ec:19:76:1a:89:73:9b:74:83:95:b0:44:7b:00.
      Are you sure you want to continue connecting (yes/no)? yes
-     root@10.0.1.1 password:
+     admin@10.0.1.1 password: admin
      > status
      Current NETCONF session:
        ID          : 1
