@@ -5,6 +5,8 @@ date:   2023-01-11 15:22:42 +0100
 tags:
  - ping
  - tcpdump
+ - bridge
+ - VLAN
 ---
 
 Time for troubleshooting!  In this post we show how you can localize
