@@ -1,7 +1,9 @@
 ---
 title: "MAC Learning Basics"
 date: 2023-05-15 09:03:20 +0200
-draft: false
+author: Jon-Olov Vatn
+tags:
+ - bridge
 ---
 
 This post illustrates _dynamic learning of unicast MAC addresses_ on
@@ -13,11 +15,6 @@ post][Bridging-VLAN-Post] on Bridging and VLANs.
 If you wish to try this out yourself, there are hints on exploring _MAC
 Learning with Infix and GNS3_ at [the
 bottom](#exploring-mac-learning-with-infix) of this post.
-
-**\#learning-cache \#mac-database \#forwarding-database \#fdb
-\#mac-bridge \#transparent-bridge**
-
-
 
 ## Example Topology - A single bridge
 

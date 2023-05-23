@@ -4,6 +4,9 @@ author: Joachim Wiberg
 date:   2023-01-11 15:07:42 +0100
 categories:
  - networking course
+tags:
+ - bridge
+ - VLAN
 ---
 
 Moving on to more advanced concepts, this post shows how to set up
