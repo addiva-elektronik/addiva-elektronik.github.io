@@ -20,7 +20,7 @@ This blog post links to each topic and training for each topic:
    - [Lab exercises]({{< ref 2023-01-11-training-basic-networking >}})
  - [Bridging and VLANs]({{< ref 2023-01-11-bridging-and-vlans >}})
    - [Lab exercises]({{< ref 2023-01-12-training-switching >}})
- - [Basic Routing and Firewalling]({{< ref 2023-01-11-basic-networking >}})
+ - [Basic Routing and Firewalling]({{< ref 2023-04-20-basic-routing-firewalling >}})
    - [Lab exercises]({{< ref 2023-01-16-training-routing >}})
 
 
