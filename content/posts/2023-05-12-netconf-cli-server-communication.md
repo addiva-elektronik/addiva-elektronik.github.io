@@ -348,7 +348,36 @@ On your PC, you will get a tap0 interface, connected to the eth0 of Infix
 
 The next step is to generate topology and start *qeneth*. After that it is
 only left to set some IP addresses to the TAP interface and to the Infix
-instance (setting IPv4 address to the Infix device is not mandatory since IPv6 address is assigned to it automatically and can be used for NETCONF communication):
+instance (setting IPv4 address to the Infix device is not mandatory since IPv6 address is assigned to it automatically and can be used for NETCONF communication). 
+
+If you decide to work with IPv6 address, you can find it inside the infix device:
+
+```
+root@infix-00-00-00:~$ ip addr
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group iface qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host
+       valid_lft forever preferred_lft forever
+2: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP group default qlen 1000
+    link/ether 02:00:00:00:00:00 brd ff:ff:ff:ff:ff:ff
+    inet 10.10.10.2/24 scope global eth0
+       valid_lft forever preferred_lft forever
+    inet6 fe80::ff:fe00:0/64 scope link
+       valid_lft forever preferred_lft forever
+```
+
+Or you can find it by pinging the remote Infix device behind the tap interface and reading the address from reply by running:
+
+```
+ping -6 -L -c1 ff02::1%tap0 | awk '/64 bytes from/{print $4 $5}' |sed 's/\(.*\):icmp_seq.*/\1/'
+
+fe80::ff:fe00:0%tap0
+```
+
+On the other hand, if you decide to firstly set an IPv4 address:
+
 
 ```
 linux-pc:~/tutorial$ qeneth generate && qeneth start
