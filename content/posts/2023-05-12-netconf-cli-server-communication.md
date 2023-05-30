@@ -276,8 +276,9 @@ After the Infix is added to GNS3, it is possible to create a simple setup as bel
                     (⇅)
                    Infix
 ```
+By default, the Infix device gets an IPv6 address assigned, which can be used for setting-up the NETCONF communication. The only requirement is to have a tap-interface defined to connect between the host device and Infix device. This is an example of IPv6 address to be used: `fe80::ff:fe00:0%tap-infix`
 
-It is only left to assing an IP address to the Infix device and since the NAT interface is in use, we obtain one from DHCP server by running:
+In case we want to use IPv4 address, it is only left to assing an IP address to the Infix device and since the NAT interface is in use, we obtain one from DHCP server by running:
 ```
      > udhcpc -i eth0
 ```
@@ -347,7 +348,7 @@ On your PC, you will get a tap0 interface, connected to the eth0 of Infix
 
 The next step is to generate topology and start *qeneth*. After that it is
 only left to set some IP addresses to the TAP interface and to the Infix
-instance:
+instance (setting IPv4 address to the Infix device is not mandatory since IPv6 address is assigned to it automatically and can be used for NETCONF communication):
 
 ```
 linux-pc:~/tutorial$ qeneth generate && qeneth start
