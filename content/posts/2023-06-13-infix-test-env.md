@@ -1,9 +1,10 @@
 ---
-title: "Infix test environment"
-date: 2023-06-13 09:03:20 +0200
+title: "Infix Test Environment"
+date: 2023-06-21 09:03:20 +0200
 author: Emir Hasanovic
 tags:
  - test
+ - infix
 ---
 
 Infix comes with a test environment that is intended to provide end-to-end
@@ -21,7 +22,7 @@ The test environment is consisted of the following parts:
 
  Each of these modules will be explained separately in the next chapters.
 
-As inputs the test environment requires: 
+As inputs, the test environment requires:
  - [Infix] image
  - Test topology
  - Test suites
@@ -39,7 +40,7 @@ of required packages is done automatically.
     make test-qeneth
 
 ### Test structure
-Test suites contain group of test cases defined inside .yaml file.
+Test suites contain group of test cases defined inside *.yaml* file.
 The structure of the implemented test cases starts with one main yaml file
 */test/all.yaml* which contains list of different test suites and their names.
 The suites contain multiple test cases separated in a way that they belong to
@@ -75,7 +76,7 @@ in any language, as long as it matches the calling convention above.
   Given that we have a proper API (RESTCONF), we should leverage that
   when testing.  Front-ends can be tested by other means.
 
-### Examples
+### Example
 
 ```python
 #!/usr/bin/env python3
@@ -104,6 +105,13 @@ with infamy.Test() as test:
 
     test.succeed()
 ```
+
+The simplicity of using *infamy* library is represented in the code above.
+It shows how it is used to set-up the environment and required topology
+which is predefined.
+The test case itself has a purpose to change the server's hostname to a
+random string value, and it checks that the hostname is successfully updated.
+
 
 ## Interactive Usage
 
@@ -298,7 +306,3 @@ spanning tree matches the expected one.
 [Qeneth]: https://github.com/wkz/qeneth
 [TAP]:    https://testanything.org/
 [Infix]: https://github.com/kernelkit/infix
-
-
-
-
