@@ -14,25 +14,48 @@ traffic at various points.
 
 The test environment is consisted of the following parts: 
  - Container Environment
- - Qeneth Virtual Environment
+ - [Qeneth] Virtual Environment
  - Python Virtual Environment
  - Infamy Library
- - 9PM Framework
+ - [9PM] Framework
 
  Each of these modules will be explained separately in the next chapters.
 
 As inputs the test environment requires: 
- - Infix image
+ - [Infix] image
  - Test topology
  - Test suites
  ![Infix Testing Architecture](../images/testing-overview.svg)
 ## Testing
-### TL;DR
+
+To run all the existing test cases, it is firstly required to select the right
+configuration and build the Infix project. After an Infix image is built, it is
+possible to run test cases in the virtual environment. The test environment
+is based on [Qeneth] and other mentioned parts, so the setup and installation
+of required packages is done automatically.
+
 	make x86_64_defconfig
 	make
     make test-qeneth
 
-Runs the test suite on a set of virtual Infix nodes.
+### Test structure
+Test suites contain group of test cases defined inside .yaml file.
+The structure of the implemented test cases starts with one main yaml file
+*/test/all.yaml* which contains list of different test suites and their names.
+The suites contain multiple test cases separated in a way that they belong to
+the same YANG model (*/test/\<YANGModelName\>/all.yaml*).
+
+#### Test Cases
+A test case is an executable, receiving the physical topology as a
+positional argument, which produces [TAP][] compliant output on its
+`stdout`. I.e., it is executed in the following manner:
+
+    test-case [OPTS] <physical-topology>
+
+Test cases are typically written in Python, using the
+[Infamy](#infamy) library.  Ultimately though, it can be implemented
+in any language, as long as it matches the calling convention above.
+
 ### Tenets
 - **Keep overhead to a minimum**.  Tests should be fast to both write
   and run.  Ideally, the developer should _want_ to add tests early in
@@ -52,7 +75,54 @@ Runs the test suite on a set of virtual Infix nodes.
   Given that we have a proper API (RESTCONF), we should leverage that
   when testing.  Front-ends can be tested by other means.
 
-## Structure
+### Examples
+
+```python
+#!/usr/bin/env python3
+
+import random, string
+
+import infamy
+
+with infamy.Test() as test:
+    with test.step("Initialize"):
+        env = infamy.Env(infamy.std_topology("1x1"))
+        target = env.attach("target", "mgmt")
+
+    with test.step("Set new hostname"):
+        new = "".join((random.choices(string.ascii_lowercase, k=16)))
+
+        target.put_config_dict("ietf-system", {
+            "system": {
+                "hostname": new,
+            }
+        })
+
+    with test.step(f"Verify new hostname ({new})"):
+        running = target.get_config_dict("/ietf-system:system")
+        assert(running["system"]["hostname"] == new)
+
+    test.succeed()
+```
+
+## Interactive Usage
+
+Some tests only require a single DUT.  These can therefore be run
+against an Infix image started from `make run`. When the instance is
+running, you can open a separate terminal and run `make test-run`, to
+run the subset of the test suite that can be mapped to it.
+
+Both `test-qeneth` and `test-run` targets have a respective target
+with a `-sh` suffix.  These can be used to start an interactive
+session in the reproducible environment, which is usually much easier
+to work with during a debugging session.
+
+Inside of the reproducible environment, a wrapper for Qeneth is
+automatically created that will run it from the running network's
+directory.  E.g., running a plain `qeneth status` inside a `make
+test-qeneth-sh` environment will show the expected status information.
+
+## Environment Structure
 ### Containers & Requirements
 The entire execution is optionally done inside a
 standardized container environment, using either `podman` or
@@ -60,11 +130,19 @@ standardized container environment, using either `podman` or
 suite is always available, no matter which distribution the user is
 running on their machine.
 ### Qeneth & Virtual Environment
-Using Qeneth, the environment can optionally be started with a virtual topology of DUTs to run the tests on.
+Using [Qeneth], the environment can optionally be started with a virtual
+topology of DUTs to run the tests on.
 ### Python Environment
-To make sure that the expected versions of all Python packages are available, the execution is wrapped inside a venv. This is true for containerized executions, where the container comes with a pre-installed environment, but it can also be sourced from the host system when running outside of the container.
+To make sure that the expected versions of all Python packages are available,
+the execution is wrapped inside a venv. This is true for containerized
+executions, where the container comes with a pre-installed environment, but
+it can also be sourced from the host system when running outside of the container.
 ### Infamy
-Rather than having each test case come up with its own implementation of how to map topologies, how to push NETCONF data to a device, etc., we provide a library of functions to take care of all that, dubbed “Infamy”. When adding a new test case, ask yourself if any parts of it might belong in Infamy as a generalized component that can be reused by other tests.
+Rather than having each test case come up with its own implementation of how to
+map topologies, how to push NETCONF data to a device, etc., we provide a library
+of functions to take care of all that, dubbed “Infamy”. When adding a new test
+case, ask yourself if any parts of it might belong in Infamy as a generalized
+component that can be reused by other tests.
 
 Some of the core functions provided by Infamy are:
 
@@ -80,7 +158,7 @@ structured, with a suite being made up of other suites, etc.
 It also validates the TAP output, making sure to catch early exits
 from a case, and produces a nice summary report.
 ### Infix image
-An Infix image can be built directly inside Infix project or by downloading a certain release from: 
+An [Infix] image can be built directly inside Infix project or by downloading a certain release from:
 https://github.com/kernelkit/infix/releases/tag/latest
 ### Topology (Physical and Logical)
 
@@ -215,73 +293,12 @@ determine the DUTs to use for testing.  As an example, an STP test
 could accept an arbitrary physical topology, run the STP algorithm on
 it offline, enable STP on all DUTs, and then verify that the resulting
 spanning tree matches the expected one.
-### Test suites
-Test suites contain group of test cases defined inside .yaml file. 
-#### Test Cases
-A test case is an executable, receiving the physical topology as a
-positional argument, which produces [TAP][] compliant output on its
-`stdout`. I.e., it is executed in the following manner:
-
-    test-case [OPTS] <physical-topology>
-
-Test cases are typically written in Python, using the
-[Infamy](#infamy) library.  Ultimately though, it can be implemented
-in any language, as long as it matches the calling convention above.
-#### Functionalities
-
-## Tests
-### Cases
-### Examples
-
-## Interactive Usage
-
-Some tests only require a single DUT.  These can therefore be run
-against an Infix image started from `make run`. When the instance is
-running, you can open a separate terminal and run `make test-run`, to
-run the subset of the test suite that can be mapped to it.
-
-Both `test-qeneth` and `test-run` targets have a respective target
-with a `-sh` suffix.  These can be used to start an interactive
-session in the reproducible environment, which is usually much easier
-to work with during a debugging session.
-
-Inside of the reproducible environment, a wrapper for Qeneth is
-automatically created that will run it from the running network's
-directory.  E.g., running a plain `qeneth status` inside a `make
-test-qeneth-sh` environment will show the expected status information.
-
 
 [9PM]:    https://github.com/rical/9pm
 [Qeneth]: https://github.com/wkz/qeneth
 [TAP]:    https://testanything.org/
 [Infix]: https://github.com/kernelkit/infix
-______________________________________________________________________
 
-### `/test/env`
-
-A good way to ensure that nobody ever runs the test suite is to make
-it _really_ hard to do so.  `/test/env`'s job is instead to make it
-very _easy_ to create a reproducible environment in which tests can be
-executed.
-
-Several technologies are leveraged to accomplish this:
-
-- **Containers**: The entire execution is optionally done inside a
-  standardized container environment, using either `podman` or
-  `docker`.  This ensures that the software needed to run the test
-  suite is always available, no matter which distribution the user is
-  running on their machine.
-
-- **Python Virtual Environments**: To make sure that the expected
-  versions of all Python packages are available, the execution is
-  wrapped inside a `venv`.  This is true for containerized executions,
-  where the container comes with a pre-installed environment, but it
-  can also be sourced from the host system when running outside of the
-  container.
-
-- **Virtual Test Topology**: Using [Qeneth][], the environment can
-  optionally be started with a virtual topology of DUTs to run the
-  tests on.
 
 
 
