@@ -76,7 +76,7 @@ DATA
 
 To change the hostname on the switch to _foo_, create a file on the PC,
 e.g., *hostname.xml* with the following input:
-```
+```xml
 <system xmlns="urn:ietf:params:xml:ns:yang:ietf-system">
 <hostname>foo</hostname>
 </system>
@@ -125,7 +125,7 @@ It is also possible to edit configuration, in a similar way as it is done
 with *netopeer2-cli* above. The only difference is that the *hostname.xml*
 file needs to be wrapped inside ``<config ... </config>`` as follows:
 
-```
+```xml
 <config xmlns="urn:ietf:params:xml:ns:netconf:base:1.0">
   <system xmlns="urn:ietf:params:xml:ns:yang:ietf-system">
     <hostname>foo</hostname>
@@ -197,13 +197,13 @@ linux-pc:~$
 
 If the package is not available, it is possible to clone its repository and install it in that way:
 
-```
+```bash
      ~$ git clone https://github.com/CESNET/netopeer2.git
      ~$ cd netopeer2
      ~$ mkdir build && cd build && cmake .. && make && make install
 ```
 There could be some missing dependencies so before installing *netopeer2*, it is recommended to check and/or install the following packages:
-```
+```bash
      ~$ sudo apt-get update
      ~$ sudo apt-get install git cmake build-essential bison flex libpcre3-dev libev-dev libavl-dev libprotobuf-c-dev protobuf-c-compiler swig python-dev lua5.2 pkg-config libpcre++-dev openssl libssl-dev libcrypto++-dev zlib1g-dev
 ```
@@ -216,7 +216,7 @@ For more information, see the associated [project][netconf-python-github]
 and [doc][netconf-python-doc] pages.
 
 Since the package is based on Python, as a prerequisite it is needed to install *Python PIP package* and then use the same to install netconf.
-```
+```bash
       ~$ apt install python3-pip
       ~$ pip install netconf
 ```
