@@ -103,9 +103,18 @@ shown below.
     admin@infix-04-00-00:~$ cli
     admin@infix-04-00-00:/> configure 
     admin@infix-04-00-00:/config/> set system hostname R1
+    admin@infix-04-00-00:/config/>
+
+Apply changes by leaving the configuration context with `leave`, then
+store changes to the startup configuration.
+
     admin@infix-04-00-00:/config/> leave
     admin@R1:/> copy running-config startup-config 
     admin@R1:/>
+
+> Remember to copy the running configuration to the startup
+> configuration to make the changes permanent. `copy running-config
+> startup-config` is not shown in remaining examples.
 
 ### Configuring IP address (and enabling IP forwarding)
 
@@ -140,14 +149,7 @@ To view the changes done so far, use the `diff` command.
         }
       }
     }
-    admin@R1:/config/>
-
-Apply changes by leaving the configuration context and store changes
-to startup
-
-    admin@R1:/config/> 
     admin@R1:/config/> leave
-    admin@R1:/> copy running-config startup-config 
     admin@R1:/>
 
 Status of IP address assignment can be viewed using `show interfaces` command.
@@ -455,13 +457,16 @@ have been added to R1 and R6.
 
 On R1, *eth2* is configured with IP address 10.0.1.1/24, and enabled
 for OSPF within area 0.0.0.0. The eth2 interface is kept as (regular)
-broadcast interface (not point-to-point).
+broadcast interface (not point-to-point), and as no neighbor OSPF
+router is expected on this LAN, eth2 can be configured as a passive
+OSPF interface.
 
     admin@R1:/> 
     admin@R1:/> configure 
     admin@R1:/config/> set interface eth2 ipv4 address 10.0.1.1 prefix-length 24
     admin@R1:/config/> set interface eth2 ipv4 forwarding true
     admin@R1:/config/> set routing control-plane-protocol ospfv2 name default ospf area 0.0.0.0 interface eth2 enabled true 
+    admin@R1:/config/> set routing control-plane-protocol ospfv2 name default ospf area 0.0.0.0 interface eth2 passive true
     admin@R1:/config/> leave
     admin@R1:/>
 
