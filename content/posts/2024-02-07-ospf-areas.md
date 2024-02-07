@@ -69,7 +69,7 @@ limit routing state in the sub-areas.
 .  ---+---------´   |                         |   `---------+--    .
 .   10.43.1.0/24    |                         |   10.43.2.0/24     .
 .                   |                         |                    .
-.         10.43.33  |                         | 10.43.4.4          .
+.         10.43.3.3 |                         | 10.43.4.4          .
 .    .-.        .---+----.               .----+---.        .-.     .
 .    |H|        | A43-R3 +---------------+ A43-R4 |        |H|     .
 .    '+'        '-+------'               '------+-'        '+'     .
@@ -79,11 +79,8 @@ limit routing state in the sub-areas.
   .                                                              .
     . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 
 ```
-  			   
 
-
-			   
-## The sub area
+## The sub-area
 
 We start by configuring the OSPF routers at department X, which has
 been assigned OSPF area id '43' (0.0.0.43). That is, we configure all
@@ -104,7 +101,7 @@ maintained by the main IT department.
   ---+---------´   |                         |   `---------+--
    10.43.1.0/24    |                         |   10.43.2.0/24
                    |                         |
-          10.43.33 |                         | 10.43.4.4
+         10.43.3.3 |                         | 10.43.4.4
     .-.        .---+----.               .----+---.        .-.
     |H|        | A43-R3 +---------------+ A43-R4 |        |H|
     '+'        '-+------'               '------+-'        '+'
@@ -112,7 +109,6 @@ maintained by the main IT department.
   ---+---------´                                 `---------+--
    10.43.3.0/24                                  10.43.4.0/24
 ```
-  			   
 
 For OSPF configuration, we have assumed the following:
 
