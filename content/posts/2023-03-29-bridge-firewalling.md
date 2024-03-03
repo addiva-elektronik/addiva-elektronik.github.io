@@ -20,7 +20,7 @@ command.  Another blog post may venture into managing bridge firewall
 rules with either the traditional `ebtables` command, or the new `nft`
 suite.  Example:
 
-```
+```shell
 $ sudo ebtables -L
 Bridge table: filter
 
@@ -38,7 +38,7 @@ $
 The relevant kernel bridge settings can be seen with the following
 command:
 
-```
+```shell
 $ sysctl net.bridge
 net.bridge.bridge-nf-call-arptables = 1
 net.bridge.bridge-nf-call-ip6tables = 1
@@ -55,7 +55,7 @@ different layers.
 We create the file `/etc/sysctl.d/90-bridge-no-filter.conf` by using a
 clever HERE script:
 
-```
+```shell
 $ sudo tee /etc/sysctl.d/90-bridge-no-filter.conf <<EOF
 net.bridge.bridge-nf-call-ip6tables = 0
 net.bridge.bridge-nf-call-iptables  = 0
@@ -66,19 +66,19 @@ EOF
 Activate the new settings by restarting the systemd service, or
 rebooting your system:
 
-```sh
+```shell
 $ sudo systemctl restart systemd-sysctl.service
 ```
 
 or call sysctl directly, which works also on systems without systemd:
 
-```sh
+```shell
 # sysctl -p /etc/sysctl.d/90-bridge-no-filter.conf
 ```
 
 Verify that the new settings took:
 
-```
+```shell
 $ sysctl net.bridge
 net.bridge.bridge-nf-call-arptables = 0
 net.bridge.bridge-nf-call-ip6tables = 0

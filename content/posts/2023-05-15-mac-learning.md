@@ -47,7 +47,7 @@ The following commands can be used to setup Bridge-A. (For more
 details, see [Exploring MAC learning with 
 Infix](#exploring-mac-learning-with-infix) further below.)
 
-```
+```shell
 root@bridge-a:~# ip link add br0 type bridge
 root@bridge-a:~# ip link set eth0 master br0
 root@bridge-a:~# ip link set eth1 master br0
@@ -64,7 +64,7 @@ _forwarding database_, _FDB_, _learning_cache_, _station cache_, etc.). If the
 address is found, it forwards the packet onto that port. If the
 address is not found, it floods the packet onto all ports.
 
-```
+```shell
 root@bridge-a:~# bridge fdb show dynamic
 02:11:11:11:00:00 dev eth0 master br0 
 02:22:22:22:00:00 dev eth1 master br0 
@@ -81,7 +81,7 @@ When the bridge starts, the _MAC database_ is empty, thus all traffic
 is flooded. For every packet received, the bridge learns the location
 of the sender by inspecting the source MAC of the packet.
 
-```
+```shell
 root@bridge-a:~# bridge fdb show dynamic
 root@bridge-a:~# 
 ```
@@ -89,7 +89,7 @@ Once H1, sends a packet, the bridge will learn that H1 resides on port
 eth0. Or more precisely, that the MAC address of H1 resides on port
 eth0.
 
-```
+```shell
 root@bridge-a:~# bridge fdb show dynamic
 02:11:11:11:00:00 dev eth0 master br0 
 root@bridge-a:~# 
@@ -128,7 +128,8 @@ MAC: 02:11:11:11:00:00               MAC: 02:44:44:44::00:00
 
 Inspecting the MAC databases at Bridge A and B after booting up, they
 may show the following result
-```
+
+```shell
 On Bridge A:
 root@bridge-a:~# bridge fdb show dynamic
 02:11:11:11:00:00 dev eth0 master br0 
@@ -150,7 +151,8 @@ here is that all these nodes exchange LLDP messages. The LLDP packets only go
 hop-by-hop, thus Bridge-A will not learn MAC addresses of H3 and H4 this
 way. For example, if we listen in on port eth0 of Bridge-A, we can see
 the following LLDP traffic.
-```
+
+```shell
 root@bridge-a:~# tcpdump -ee -n -i eth0
 tcpdump: verbose output suppressed, use -v[v]... for full protocol decode
 listening on eth0, link-type EN10MB (Ethernet), snapshot length 262144 bytes
@@ -165,7 +167,8 @@ root@bridge-a:~#
 
 Now, let H1 ping H2 (`ping 10.0.1.2`) and inspect the MAC databases on
 the bridges: 
-```
+
+```shell
 Bridge-A:
 root@bridge-a:~# bridge fdb show dynamic
 02:11:11:11:00:00 dev eth0 master br0 
@@ -193,7 +196,7 @@ Now, let H1 send a broadcast ping (`ping 10.0.1.255`). All hosts
 respond.  If we again inspect the MAC databases at the bridges, we see
 they have learned the location of the MACs for all hosts.
 
-```
+```shell
 Bridge-A:
 root@bridge-a:~# bridge fdb show dynamic
 02:11:11:11:00:00 dev eth0 master br0 
@@ -255,7 +258,7 @@ least 3). This is done in the _GNS3 Configure_ window for the units.
 To make Bridge-A (and Bridge-B) act like MAC bridges, the following
 commands where issued via the console.
 
-```
+```shell
 root@bridge-a:~# ip link add br0 type bridge
 root@bridge-a:~# ip link set eth0 master br0
 root@bridge-a:~# ip link set eth1 master br0
@@ -268,7 +271,7 @@ To make Bridge-A get hostname (and prompt) 'bridge-a', you can edit
 DHCP messages, you can comment out the associated line in
 '/etc/network/interfaces.d/ for eth0, eth1, etc.
 
-```
+```shell
 root@bridge-a:~# cat /etc/network/interfaces.d/eth0 
 auto eth0
 iface eth0 inet manual
@@ -279,7 +282,8 @@ root@bridge-a:~#
 
 The first line (auto eth0) could also be commented out, but then you
 need to bring up eth0, eth1 and eth2 manually.
-```
+
+```shell
 root@bridge-a:~# ip link set eth0 up
 root@bridge-a:~# ip link set eth1 up
 root@bridge-a:~# ip link set eth2 up
@@ -290,7 +294,8 @@ root@bridge-a:~# ip link set eth2 up
 
 To assign static IP 10.0.1.1/24 to H1 (etc.), update the
 '/etc/network/interfaces.d/eth0'
-```
+
+```shell
 root@h1:~# cat /etc/network/interfaces.d/eth0 
 auto eth0
 iface eth0 inet static
@@ -303,13 +308,16 @@ root@h1:~#
 
 To enable hosts respond to 'broadcast pings', change the corresponding
 'proc' setting
-```
+
+```shell
 root@h1:~# sysctl -w net.ipv4.icmp_echo_ignore_broadcasts=0
 net.ipv4.icmp_echo_ignore_broadcasts = 0
 root@h1:~#
 ```
+
 To make the setting permanent, the following can be used:
-```
+
+```shell
 root@h1:~# echo 'net/ipv4/icmp_echo_ignore_broadcasts = 0' > /etc/sysctl.d/91-icmp-echo-bcast.conf 
 root@h1:~#
 ```
