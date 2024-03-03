@@ -7,6 +7,9 @@ tags:
  - infix
 ---
 
+{{% figure src="/images/testing-overview.svg" link="/images/testing-overview.svg"
+    width="200" caption="Infix Testing Architecture" class="right-floated" %}}
+
 Infix comes with a test environment that is intended to provide end-to-end
 verification of supported features. Generally speaking, this means
 that one or more DUTs are configured over NETCONF; the resulting
@@ -14,39 +17,45 @@ network is then black-box tested by injecting and inspecting network
 traffic at various points.
 
 The test environment is consisted of the following parts: 
+
  - Container Environment
- - [Qeneth] Virtual Environment
+ - [Qeneth][] Virtual Environment
  - Python Virtual Environment
  - Infamy Library
- - [9PM] Framework
+ - [9PM][] Framework
 
- Each of these modules will be explained separately in the next chapters.
+Each of these modules will be explained separately in the next chapters.
 
 As inputs, the test environment requires:
- - [Infix] image
+
+ - [Infix][] image
  - Test topology
  - Test suites
- ![Infix Testing Architecture](../images/testing-overview.svg)
+
 ## Testing
 
 To run all the existing test cases, it is firstly required to select the right
 configuration and build the Infix project. After an Infix image is built, it is
 possible to run test cases in the virtual environment. The test environment
-is based on [Qeneth] and other mentioned parts, so the setup and installation
+is based on [Qeneth][] and other mentioned parts, so the setup and installation
 of required packages is done automatically.
 
-	make x86_64_defconfig
-	make
-    make test-qeneth
+```shell
+~/src/infix(main)$ make x86_64_defconfig
+~/src/infix(main)$ make
+~/src/infix(main)$ make test
+```
 
 ### Test structure
+
 Test suites contain group of test cases defined inside *.yaml* file.
 The structure of the implemented test cases starts with one main yaml file
 */test/all.yaml* which contains list of different test suites and their names.
 The suites contain multiple test cases separated in a way that they belong to
-the same YANG model (*/test/\<YANGModelName\>/all.yaml*).
+the same YANG model (`/test/\<YANGModelName\>/all.yaml`).
 
 #### Test Cases
+
 A test case is an executable, receiving the physical topology as a
 positional argument, which produces [TAP][] compliant output on its
 `stdout`. I.e., it is executed in the following manner:
@@ -130,7 +139,9 @@ automatically created that will run it from the running network's
 directory.  E.g., running a plain `qeneth status` inside a `make
 test-qeneth-sh` environment will show the expected status information.
 
+
 ## Environment Structure
+
 ### Containers & Requirements
 The entire execution is optionally done inside a
 standardized container environment, using either `podman` or
@@ -158,16 +169,22 @@ Some of the core functions provided by Infamy are:
    - Finding and attaching to a device over an Ethernet interface, using NETCONF
    - Pushing/pulling NETCONF data to/from a device
    - Generating TAP compliant output
+
 ### 9PM Framework
+
 To run multiple tests, we employ [9PM][]. It let's us define test
 suites as simple YAML files. Suites can also be hierarchically
 structured, with a suite being made up of other suites, etc.
 
 It also validates the TAP output, making sure to catch early exits
 from a case, and produces a nice summary report.
+
 ### Infix image
-An [Infix] image can be built directly inside Infix project or by downloading a certain release from:
-https://github.com/kernelkit/infix/releases/tag/latest
+
+An [Infix][] image can be built directly inside Infix project or by
+downloading a certain release from:
+<https://github.com/kernelkit/infix/releases/tag/latest>
+
 ### Topology (Physical and Logical)
 
 Imagine that we want to create a test with three DUTs; one acting as a
@@ -175,34 +192,37 @@ DHCP server, and the other two as DHCP clients - with all three having
 a management connection to the host PC running the test.  In other
 words, the test requires a _logical_ topology like the one below.
 
-<img align="right" src="../images/testing-log.dot.svg" alt="Example Logical Topology">
+{{% figure src="/images/testing-log.dot.svg" 
+    caption="Example Logical Topology" class="right-floated" %}}
 
-    graph "dhcp-client-server" {
-        host [
-            label="host | { <c1> c1 | <srv> srv | <c2> c2 }",
-            kind="controller",
-        ];
+```dot
+graph "dhcp-client-server" {
+    host [
+        label="host | { <c1> c1 | <srv> srv | <c2> c2 }",
+        kind="controller",
+    ];
 
-        server [
-            label="{ <mgmt> mgmt } | server | { <c1> c1 | <c2> c2 }",
-            kind="infix",
-        ];
-        client1 [
-            label="{ <mgmt> mgmt } | client1 | { <srv> srv }",
-            kind="infix",
-        ];
-        client2 [
-            label="{ <mgmt> mgmt } | client2 | { <srv> srv }",
-            kind="infix",
-        ];
+    server [
+        label="{ <mgmt> mgmt } | server | { <c1> c1 | <c2> c2 }",
+        kind="infix",
+    ];
+    client1 [
+        label="{ <mgmt> mgmt } | client1 | { <srv> srv }",
+        kind="infix",
+    ];
+    client2 [
+        label="{ <mgmt> mgmt } | client2 | { <srv> srv }",
+        kind="infix",
+    ];
 
-        host:srv -- server:mgmt
-        host:c1  -- client1:mgmt
-        host:c2  -- client2:mgmt
+    host:srv -- server:mgmt
+    host:c1  -- client1:mgmt
+    host:c2  -- client2:mgmt
 
-        server:c1 -- client1:srv;
-        server:c2 -- client2:srv;
-    }
+    server:c1 -- client1:srv;
+    server:c2 -- client2:srv;
+}
+```
 
 When running in a virtualized environment, one could simply create a
 setup that matches the test's logical topology.  But in scenarios when
@@ -220,74 +240,79 @@ degrees), we can deploy well-known algorithms to find such subgraphs.
 Continuing our example, let's say we want to run our DHCP test on the
 _physical_ topology below.
 
-<img align="right" src="../images/testing-phy.dot.svg" alt="Example Physical Topology">
+{{% figure src="/images/testing-phy.dot.svg" 
+    caption="Example Physical Topology" class="right-floated" %}}
 
-    graph "quad-ring" {
-        host [
-            label="host | { <d1a> d1a | <d1b> d1b | <d1c> d1c | <d2a> d2a | <d2b> d2b | <d2c> d2c | <d3a> d3a | <d3b> d3b | <d3c> d3c | <d4a> d4a | <d4b> d4b | <d4c> d4c }",
-            kind="controller",
-        ];
+```dot
+graph "quad-ring" {
+    host [
+        label="host | { <d1a> d1a | <d1b> d1b | <d1c> d1c | <d2a> d2a | <d2b> d2b | <d2c> d2c | <d3a> d3a | <d3b> d3b | <d3c> d3c | <d4a> d4a | <d4b> d4b | <d4c> d4c }",
+        kind="controller",
+    ];
 
-        dut1 [
-            label="{ <e1> e1 | <e2> e2 | <e3> e3 } | dut1 | { <e4> e4 | <e5> e5 }",
-            kind="infix",
-        ];
-        dut2 [
-            label="{ <e1> e1 | <e2> e2 | <e3> e3 } | dut2 | { <e4> e4 | <e5> e5 }",
-            kind="infix",
-        ];
-        dut3 [
-            label="{ <e1> e1 | <e2> e2 | <e3> e3 } | dut3 | { <e4> e4 | <e5> e5 }",
-            kind="infix",
-        ];
-        dut4 [
-            label="{ <e1> e1 | <e2> e2 | <e3> e3 } | dut4 | { <e4> e4 | <e5> e5 }",
-            kind="infix",
-        ];
+    dut1 [
+        label="{ <e1> e1 | <e2> e2 | <e3> e3 } | dut1 | { <e4> e4 | <e5> e5 }",
+        kind="infix",
+    ];
+    dut2 [
+        label="{ <e1> e1 | <e2> e2 | <e3> e3 } | dut2 | { <e4> e4 | <e5> e5 }",
+        kind="infix",
+    ];
+    dut3 [
+        label="{ <e1> e1 | <e2> e2 | <e3> e3 } | dut3 | { <e4> e4 | <e5> e5 }",
+        kind="infix",
+    ];
+    dut4 [
+        label="{ <e1> e1 | <e2> e2 | <e3> e3 } | dut4 | { <e4> e4 | <e5> e5 }",
+        kind="infix",
+    ];
 
-        host:d1a -- dut1:e1
-        host:d1b -- dut1:e2
-        host:d1c -- dut1:e3
+    host:d1a -- dut1:e1
+    host:d1b -- dut1:e2
+    host:d1c -- dut1:e3
 
-        host:d2a -- dut2:e1
-        host:d2b -- dut2:e2
-        host:d2c -- dut2:e3
+    host:d2a -- dut2:e1
+    host:d2b -- dut2:e2
+    host:d2c -- dut2:e3
 
-        host:d3a -- dut3:e1
-        host:d3b -- dut3:e2
-        host:d3c -- dut3:e3
+    host:d3a -- dut3:e1
+    host:d3b -- dut3:e2
+    host:d3c -- dut3:e3
 
-        host:d4a -- dut4:e1
-        host:d4b -- dut4:e2
-        host:d4c -- dut4:e3
+    host:d4a -- dut4:e1
+    host:d4b -- dut4:e2
+    host:d4c -- dut4:e3
 
-        dut1:e5 -- dut2:e4
-        dut2:e5 -- dut3:e4
-        dut3:e5 -- dut4:e4
-        dut4:e5 -- dut1:e4
-    }
+    dut1:e5 -- dut2:e4
+    dut2:e5 -- dut3:e4
+    dut3:e5 -- dut4:e4
+    dut4:e5 -- dut1:e4
+}
+```
 
 Our test (in fact, all tests) receives the physical topology as an
 input parameter, and then maps the desired logical topology onto it,
 producing a mapping from logical nodes and ports to their physical
 counterparts.
 
-    {
-      "client1": "dut1",
-      "client1:mgmt": "dut1:e1",
-      "client1:srv": "dut1:e4",
-      "client2": "dut3",
-      "client2:mgmt": "dut3:e2",
-      "client2:srv": "dut3:e5",
-      "host": "host",
-      "host:c1": "host:d1a",
-      "host:c2": "host:d3b",
-      "host:srv": "host:d4c",
-      "server": "dut4",
-      "server:c1": "dut4:e5",
-      "server:c2": "dut4:e4",
-      "server:mgmt": "dut4:e3"
-    }
+```json
+{
+  "client1": "dut1",
+  "client1:mgmt": "dut1:e1",
+  "client1:srv": "dut1:e4",
+  "client2": "dut3",
+  "client2:mgmt": "dut3:e2",
+  "client2:srv": "dut3:e5",
+  "host": "host",
+  "host:c1": "host:d1a",
+  "host:c2": "host:d3b",
+  "host:srv": "host:d4c",
+  "server": "dut4",
+  "server:c1": "dut4:e5",
+  "server:c2": "dut4:e4",
+  "server:mgmt": "dut4:e3"
+}
+```
 
 With this information, the test knows that, in this particular
 environment, the server should be managed via the port called `d4c` on
@@ -305,4 +330,4 @@ spanning tree matches the expected one.
 [9PM]:    https://github.com/rical/9pm
 [Qeneth]: https://github.com/wkz/qeneth
 [TAP]:    https://testanything.org/
-[Infix]: https://github.com/kernelkit/infix
+[Infix]:  https://github.com/kernelkit/infix
