@@ -47,6 +47,10 @@ disableHugoGeneratorInject = false
   name = "Addiva Elektronik"
 
 [markup]
+  [markup.tableOfContents]
+    ordered = false
+    startLevel = 2
+    endLevel = 3
   [markup.goldmark]
     [markup.goldmark.renderer]
       unsafe = true
