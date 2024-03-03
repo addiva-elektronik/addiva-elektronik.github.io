@@ -1,0 +1,32 @@
+figure {
+    margin-top: 0;
+    figcaption {
+	padding-top: 0;
+	margin-left: 25px;
+    }
+}
+
+pre {
+  code {
+    @media (prefers-color-scheme: light) {
+      color: inherit;
+    }
+
+    [data-theme=light] & {
+      color: inherit;
+    }
+  }
+}
+
+.post-title {
+  font-size: 2.2rem;
+}
+
+/* Attempt to fix prism.js twilight theme */
+pre[class*="language-"] {
+    box-shadow: none;
+    border: 1px solid hsl(0, 0%, 33%); /* #282A2B */
+}
+code[class*="language-"], pre[class*="language-"] {
+    text-shadow: none;
+}

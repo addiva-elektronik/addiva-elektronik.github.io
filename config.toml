@@ -4,12 +4,14 @@ languageCode = "en-us"
 theme = "hello-friend-ng"
 
 # Syntax highlighting
-#pygmentsUseClasses = true
+# https://xyproto.github.io/splash/docs/
+pygmentsUseClasses = false
 PygmentsCodeFences = true
 pygmentsCodefencesGuessSyntax = true
 #PygmentsStyle = "monokai"
-#PygmentsStyle = "native"
-PygmentsStyle = "dracula"
+PygmentsStyle = "native"
+#PygmentsStyle = "dracula"
+#PygmentsStyle = "gruvbox"
 
 paginate  = 10
 rssLimit  = 10  # Maximum number of items in the RSS feed.
@@ -31,7 +33,7 @@ canonifyURLs = true
 
 enableRobotsTXT = true
 enableGitInfo   = false
-enableEmoji     = false
+enableEmoji     = true
 enableMissingTranslationPlaceholders = false
 disableRSS     = false
 disableSitemap = false
@@ -109,12 +111,12 @@ disableHugoGeneratorInject = false
   # Integrate Javascript files or stylesheets by adding the url to the external assets or by
   # linking local files with their path relative to the static folder, e.g. "css/styles.css"
   #
-  customCSS = []
+  customCSS = [ "/css/extra.css" ]
   customJS  = []
 
   # Toggle this option need to rebuild SCSS, requires extended version of Hugo
   #
-  justifyContent = false  # Set "text-align: justify" to .post-content.
+  justifyContent = true  # Set "text-align: justify" to .post-content.
 
   # Integrate Plausible.io
   # plausibleDataDomain = 'test.com'
@@ -171,6 +173,7 @@ disableHugoGeneratorInject = false
   #   maxWidth = "50px"
 
   # Social icons
+  # use 'fab' when brand icons, use 'fas' when standard solid icons.
   [[params.social]]
     name = "case"
     url  = "https://www.addiva.se/contact/"
