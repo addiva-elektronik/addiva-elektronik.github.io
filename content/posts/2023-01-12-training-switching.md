@@ -16,9 +16,11 @@ Lab exercises suitable for practicing bridging and VLANs.
 
 Starting small, connecting two switches using an "uplink" cable.
 
+```shell
         [⇄]--------[⇄]
          |          |
         PC1        PC2
+```
 
  - Connect the two switches
  - Attach at least one end device to each of the switches
@@ -33,6 +35,7 @@ Starting small, connecting two switches using an "uplink" cable.
 Set up a single switch with VLAN enabled.  One port in VLAN 10 (untagged
 member), and two in VLAN 20 (also untagged).
 
+```shell
            __:_________
           [__:__ ⇄_____]
            / :   |    \
@@ -40,7 +43,8 @@ member), and two in VLAN 20 (also untagged).
         PC1  :  PC2    PC3
              :
      VLAN 10 :   VLAN 20
-	           :
+	         :
+```
 
 Set up static IP addresses according the the following table:
 
@@ -63,12 +67,14 @@ Now let's add VLANs to the previous exercise. To be able to verify the
 port isolation feature of VLANs, we need at least three end devices in
 this topology.
 
+```shell
             _:_                     _:_
            [_⇄_]-------------------[_⇄_]
            / : \                   / : \
         PC1  :  PC2              PC3 :  PC4
              :                       :
      VLAN 10 :  VLAN 20      VLAN 10 :  VLAN 20
+```
 
 Two ports are untagged members in one VLAN, and at least one is untagged
 member in another VLAN.  Make sure the link between the two switches is

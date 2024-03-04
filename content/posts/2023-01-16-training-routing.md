@@ -22,6 +22,7 @@ Extend the previous exercise with a router.  The figure below depicts
 the classic *"router on a stick"* setup where the router is attached
 to the switch(es) using a VLAN trunk.
 
+```shell
           Router
            (⇅)
             |                     :
@@ -30,6 +31,7 @@ to the switch(es) using a VLAN trunk.
         PC1 : PC2             PC3 : PC4
             :                     :
     VLAN 10 : VLAN 20     VLAN 10 : VLAN 20
+```
 
 Connect the router to one of the switches as a member of all VLANs to be
 routed and make sure all traffic forwarded on the link is tagged.
@@ -84,12 +86,14 @@ and left-hand switch with a [*Brouter*][0] using [Infix][].
 > When using GNS3, follow the instructions in the Infix README on how to
 > install it as a GNS3 appliance.
 
+```shell
          Brouter
           [⇄⇅⇄]------------------[⇄]
            /:\                   /:\
         PC1 : PC2             PC3 : PC4
             :                     :
     VLAN 10 : VLAN 20     VLAN 10 : VLAN 20
+```
 
 
 ### Exercises
@@ -149,12 +153,14 @@ smart toasters connected to it.  This process of sharing an IP address
 is known as *masquerading*, and in this exercise we will learn how to
 activate it. 
               
+```shell
           (Home)              (Internet)
           [⇄⇅⇄]-----------------[⇄⇅⇄]
            / \                   / \
         PC1  PC2              PC3   PC4
     VLAN 10   VLAN 10     VLAN 20   VLAN 20
        10.0.10.0/24           10.0.20.0/24
+```
 
 ### Exercises
 

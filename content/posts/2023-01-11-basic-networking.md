@@ -130,29 +130,41 @@ There are two major approaches:
 To set the IP address of an interface, here `eth0`, in Linux there are
 both the traditional `ifconfig` tool and the new `ip address` command:
 
-    ifconfig eth0 192.168.1.42 netmask 255.255.255.0
+```shell
+~$ ifconfig eth0 192.168.1.42 netmask 255.255.255.0
+```
 	
 or
 
-    ip address add 192.168.1.42/24 dev eth0
+```shell
+~$ ip address add 192.168.1.42/24 dev eth0
+```
 
 Inspect interface addresses using
 
-    ifconfig
-	
+```shell
+~$ ifconfig
+```
+
 or
 
-    ip address
+```shell
+~$ ip address
+```
 
 Setting the default route (gateway) can be done using the traditional
 `route` tool or the `ip route` command:
 
-    route default gw 192.168.2.1
+```shell
+~$ route default gw 192.168.2.1
+```
 	
 or
 
-    ip route add default via 192.168.2.1
-	
+```shell
+~$ ip route add default via 192.168.2.1
+```
+
 Most users are however happy just to get an IP address dynamically and
 don't really care where it comes from.  However, for this to work you
 need a DHCP server on the same LAN (or use a proxy, called DHCP relay,
@@ -192,11 +204,13 @@ The IP stack in your device knows how to talk to devices in the same IP
 subnet (see above), for everything else it checks the routing table.  In
 most end-devices there are two routes, in our case:
 
-    # route -n
-    Kernel IP routing table
-    Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
-    0.0.0.0         192.168.2.1     0.0.0.0         UG    0      0        0 eth0
-    192.168.2.0     0.0.0.0         255.255.255.0   U     0      0        0 eth0
+```python
+# route -n
+Kernel IP routing table
+Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
+0.0.0.0         192.168.2.1     0.0.0.0         UG    0      0        0 eth0
+192.168.2.0     0.0.0.0         255.255.255.0   U     0      0        0 eth0
+```
 
 Our device has IP address 192.168.1.42, which falls in the net route
 (last line), but for everything else it will use the default route.

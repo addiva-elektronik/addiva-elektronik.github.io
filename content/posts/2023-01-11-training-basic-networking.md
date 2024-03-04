@@ -23,9 +23,11 @@ it is up to you if you want to install it in Linux or Windows, either
 should work, but all exercises have been tested with Linux Mint.  The
 instructions presented here work for Ubuntu and all its derivatives:
 
-    sudo add-apt-repository ppa:gns3/ppa
-    sudo apt update
-    sudo apt install gns3-gui gns3-server xterm wireshark tcpdump
+```shell
+~$ sudo add-apt-repository ppa:gns3/ppa
+~$ sudo apt update
+~$ sudo apt install gns3-gui gns3-server xterm wireshark tcpdump
+```
 
 Answer the questions you get, allowing regular users to run GNS3.  After
 install you need to reboot to start the `gns3-server` and activate your
@@ -49,8 +51,10 @@ do not need a switch.
 
 Set up two devices with a network cable between them.
 
+```shell
      PC1                    PC2
     VPCS ------------------ VPCS
+```
 
  1. Set up device PC1:
     - address: 192.168.1.10
@@ -66,6 +70,7 @@ Set up two devices with a network cable between them.
 Now, let's set up a more common example, end devices that use a DHCP
 client program to acquire an address "lease" from a DHCP server:
 
+```shell
                    .--.-.
                   ( (    )__
                  (_,  \ ) ,_)  NAT1
@@ -74,6 +79,7 @@ client program to acquire an address "lease" from a DHCP server:
      PC1             |               PC2
     VPCS -----------[⇄]------------- VPCS
                     SW1
+```
 
 The DHCP server functionality is provided by the NAT "cloud", the switch
 does not have any such functionality, we only need the switch to allow
