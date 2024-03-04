@@ -33,7 +33,9 @@ canonifyURLs = true
 
 enableRobotsTXT = true
 enableGitInfo   = false
-enableEmoji     = true
+# Messes up verbatim environments, e.g., 0e:de:c5:a8:cb:01 becomes a MAC
+# address with the German flag in it ...
+enableEmoji     = false
 enableMissingTranslationPlaceholders = false
 disableRSS     = false
 disableSitemap = false
