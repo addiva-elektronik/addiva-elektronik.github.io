@@ -30,7 +30,7 @@ post][infix-area-post] on OSPF areas in Infix before reading this one.
 ## Overview of intended topology
 
 The topology in this blog post is intended to be hierarchical. There is
-a main organisation with a *backbone*, to which one ore more
+a main organisation with a *backbone*, to which one or more
 sub-organizations can be connected. The difference as compared to the
 previous [blog post][infix-area-post] is that each organisation runs
 its own OSPF routing domain. It is even possible for different
