@@ -87,7 +87,7 @@ admin@example:/config> edit container web
 admin@example:/config/container/web/> set image docker://nginx:alpine
 admin@example:/config/container/web/> edit network
 admin@example:/config/container/web/network/> set interface docker0
-admin@example:/config/container/web/network/> set publish 80:80
+admin@example:/config/container/web/network/> set publish 8080:80
 admin@example:/config/container/web/network/> leave
 ```
 
@@ -103,7 +103,7 @@ or just poll the status command:
 ```
 admin@example:/> show container
 CONTAINER ID  IMAGE                           COMMAND               CREATED         STATUS         PORTS               NAMES
-c60a6deeea4e  docker.io/library/nginx:alpine  nginx -g daemon o...  2 minutes ago   Up 2 minutes   0.0.0.0:80->80/tcp  web
+c60a6deeea4e  docker.io/library/nginx:alpine  nginx -g daemon o...  2 minutes ago   Up 2 minutes   0.0.0.0:8080->80/tcp  web
 ```
 
 You should now be able to access the web server on port 8080 of the
