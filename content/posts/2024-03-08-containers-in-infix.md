@@ -219,11 +219,14 @@ Reload your browser to see the change.
 
 ## Fin
 
-That's the end of the first post about containers in Infix.  As usual, remember to
+That's the end of the first post about containers in Infix.  As usual,
+remember to
 
 ```
 admin@infix:/> copy running-config startup-config
 ```
+
+Take care! <3
 
 [0]: https://github.com/kernelkit/infix/blob/main/doc/networking.md
 [1]: https://podman.io
