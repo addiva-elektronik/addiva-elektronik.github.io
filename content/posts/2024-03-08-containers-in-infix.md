@@ -32,7 +32,7 @@ blog post is the first in a series of posts that aims to show this.
 All configuration of networking and containers is done through the CLI:
 
 ```
-admin@example:~$ cli
+admin@infix:~$ cli
 ```
 
 > Notice the slight change in the prompt.  Return to the Bash shell
@@ -65,10 +65,10 @@ to the container as a regular interface.
 Here's how you create a container bridge:
 
 ```
-admin@example:/> configure
-admin@example:/config> edit interface docker0
-admin@example:/config/interface/docker0> set container-network
-admin@example:/config/interface/docker0> leave
+admin@infix:/> configure
+admin@infix:/config> edit interface docker0
+admin@infix:/config/interface/docker0> set container-network
+admin@infix:/config/interface/docker0> leave
 ```
 
 
@@ -82,26 +82,26 @@ a relatively small container with the Nginx web server built on top of
 the Alpine Linux image.
 
 ```
-admin@example:/> configure
-admin@example:/config> edit container web
-admin@example:/config/container/web/> set image docker://nginx:alpine
-admin@example:/config/container/web/> edit network
-admin@example:/config/container/web/network/> set interface docker0
-admin@example:/config/container/web/network/> set publish 8080:80
-admin@example:/config/container/web/network/> leave
+admin@infix:/> configure
+admin@infix:/config> edit container web
+admin@infix:/config/container/web/> set image docker://nginx:alpine
+admin@infix:/config/container/web/> edit network
+admin@infix:/config/container/web/network/> set interface docker0
+admin@infix:/config/container/web/network/> set publish 8080:80
+admin@infix:/config/container/web/network/> leave
 ```
 
 Issuing the command `leave` queues a job to download the image and
 create a container in the background.  To see the progress:
 
 ```
-admin@example:/> show log container
+admin@infix:/> show log container
 ```
 
 or just poll the status command:
 
 ```
-admin@example:/> show container
+admin@infix:/> show container
 CONTAINER ID  IMAGE                           COMMAND               CREATED         STATUS         PORTS               NAMES
 c60a6deeea4e  docker.io/library/nginx:alpine  nginx -g daemon o...  2 minutes ago   Up 2 minutes   0.0.0.0:8080->80/tcp  web
 ```
@@ -127,11 +127,11 @@ a *persistent* writable layer for containers.  Here's how to add one
 to your container:
 
 ```
-admin@example:/> configure 
-admin@example:/config/> edit container web 
-admin@example:/config/container/web/> edit volume content
-admin@example:/config/container/web/volume/content/> set target /usr/share/nginx/html
-admin@example:/config/container/web/volume/content/> leave
+admin@infix:/> configure
+admin@infix:/config/> edit container web
+admin@infix:/config/container/web/> edit volume content
+admin@infix:/config/container/web/volume/content/> set target /usr/share/nginx/html
+admin@infix:/config/container/web/volume/content/> leave
 ```
 
 Named volumes have the downside of being opaque to the host, so the
@@ -139,7 +139,7 @@ easiest is to upload the content using `scp` or editing it directly
 in the container:
 
 ```
-admin@example:/> container shell web 
+admin@infix:/> container shell web
 d95ce9f7674d:/# vi /usr/share/nginx/html/
 50x.html    index.html
 d95ce9f7674d:/# vi /usr/share/nginx/html/index.html 
@@ -163,11 +163,11 @@ specific site setup.  For example a configuration file.  Here we use the
 same container image to bundle an `index.html` file:
 
 ```
-admin@example:/> configure 
-admin@example:/config/> edit container web 
-admin@example:/config/container/web/> edit mount index.html
-admin@example:/config/container/web/mount/index.html/> set target /usr/share/nginx/html/index.html
-admin@example:/config/container/web/mount/index.html/> text-editor content
+admin@infix:/> configure
+admin@infix:/config/> edit container web
+admin@infix:/config/container/web/> edit mount index.html
+admin@infix:/config/container/web/mount/index.html/> set target /usr/share/nginx/html/index.html
+admin@infix:/config/container/web/mount/index.html/> text-editor content
 ```
 
 The `content` setting is an alternative to `source` for file mounts
@@ -211,7 +211,7 @@ Commercial support and customer adaptations are available from
 Leave configuration context to activate your changes:
 
 ```
-admin@example:/config/container/web/mount/index.html/> leave
+admin@infix:/config/container/web/mount/index.html/> leave
 ```
 
 Reload your browser to see the change.
@@ -222,7 +222,7 @@ Reload your browser to see the change.
 That's the end of the first post about containers in Infix.  As usual, remember to
 
 ```
-admin@example:/> copy running-config startup-config
+admin@infix:/> copy running-config startup-config
 ```
 
 [0]: https://github.com/kernelkit/infix/blob/main/doc/networking.md
