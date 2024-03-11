@@ -32,7 +32,7 @@ blog post is the first in a series of posts that aims to show this.
 All configuration of networking and containers is done through the CLI:
 
 ```
-admin@example:/$ cli
+admin@example:~$ cli
 ```
 
 > Notice the slight change in the prompt.  Return to the Bash shell
