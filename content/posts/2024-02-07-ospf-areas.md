@@ -2,6 +2,7 @@
 title:  "Using OSPF Areas in Infix"
 author: Jon-Olov Vatn
 date:   2024-02-07 17:07:42 +0200
+toc:    true
 tags:
  - linux
  - networking
