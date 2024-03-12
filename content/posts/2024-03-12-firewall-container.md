@@ -76,22 +76,22 @@ with the container, and *privileged* mode.
 ```
 admin@infix:/> configure
 admin@infix:/config> edit container nftables
-admin@infix:/config/container/system/> set image docker://ghcr.io/kernelkit/curios-nftables:24.02.0
-admin@infix:/config/container/system/> set network host
-admin@infix:/config/container/system/> set privileged true
-admin@infix:/config/container/system/> edit mount nftables.conf
-admin@infix:/config/container/system/mount/nftables.conf/> set target /etc/nftables.conf
-admin@infix:/config/container/system/mount/nftables.conf/> text-editor content
+admin@infix:/config/container/nftables/> set image docker://ghcr.io/kernelkit/curios-nftables:24.02.0
+admin@infix:/config/container/nftables/> set network host
+admin@infix:/config/container/nftables/> set privileged true
+admin@infix:/config/container/nftables/> edit mount nftables.conf
+admin@infix:/config/container/nftables/mount/nftables.conf/> set target /etc/nftables.conf
+admin@infix:/config/container/nftables/mount/nftables.conf/> text-editor content
 ... interactive editor starts up where you can paste your rules ...
-admin@infix:/config/container/system/mount/nftables.conf/> leave
+admin@infix:/config/container/nftables/mount/nftables.conf/> leave
 ```
 
 {{% figure src="/images/firewall.svg" link="https://wiki.nftables.org/wiki-nftables/index.php/Main_Page"
     caption="nftables is Linux firewall" width="200" class="right-floated" %}}
 
-Notice the curious command `text-editor content`.  It opens up an
-interactive [text editor][4] where you can paste in the contents of
-the file `/etc/nftables.conf` that will be mounted in the container.
+Notice the command `text-editor content`, it opens up an interactive
+[text editor][4] where you can paste in the contents of the file
+`/etc/nftables.conf` that will be mounted in the container.
 
 The `text-editor` command base64 encodes the content and stores it
 in the Infix `startup-config`, thus ensuring that the configuration
