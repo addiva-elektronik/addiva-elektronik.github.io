@@ -2,6 +2,7 @@
 title:  "Connecting OSPF domains via static route(s)"
 author: Jon-Olov Vatn
 date:   2024-03-05 17:07:42 +0200
+toc:    true
 tags:
  - linux
  - networking
