@@ -153,6 +153,14 @@ table ip nat {
 }
 ```
 
+> Here we run the `nft` program shipped with Infix.  It is of course
+> possible to run the `nft` binary from the container, albeit not as
+> easily:
+>
+> ```shell
+> admin@infix:~$ sudo podman run --network=host --privileged=true --entrypoint=/usr/sbin/nft ghcr.io/kernelkit/curios-nftables:24.02.0 list ruleset
+> ```
+
 
 ## `/etc/nftables.conf`
 
