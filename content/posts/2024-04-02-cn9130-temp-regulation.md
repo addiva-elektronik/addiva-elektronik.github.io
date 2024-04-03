@@ -16,12 +16,12 @@ Software wise we are running a more or less unmodified Linux 6.6.22
 kernel, using the standard `performance` governor to manage CPU
 frequency scaling.
 
-_TL;DR: The system will will start throttling down the frequency of a
-core, from the maximum of 1.6 GHz, to 800 MHz when it reaches 85°C. If
-the core temperature exceeds 95°C, then the frequency is brought down
-to 400 MHz. If either die on the chip reports a temperature in excess
-of 100°C, an emergency shutdown is triggered to protect the hardware
-from permanent damage._
+_TL;DR: The system will start throttling down the frequency of a core,
+from the maximum of 1.6 GHz, to 800 MHz when it reaches 85°C. If the
+core temperature exceeds 95°C, then the frequency is brought down to
+400 MHz. If either die on the chip reports a temperature in excess of
+100°C, an emergency shutdown is triggered to protect the hardware from
+permanent damage._
 
 
 ## Passive Temperature Regulation
